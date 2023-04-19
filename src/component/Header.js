@@ -3,11 +3,10 @@ import { FaSearch, FaBell,FaUserCircle, FaBars } from "react-icons/fa";
 import styles from "./styles/Navbar.module.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function Header() {
     const [notificationCount, setNotificationCount] = useState();
-    const [sidebarOpen, setSidebarOpen] = useState(false);
-
     const userName = localStorage.getItem("UserName")
  
     async function countUnread(){
@@ -22,7 +21,9 @@ function Header() {
     }
 
     useEffect(()=>{
+      if(localStorage.getItem("Token")){
         countUnread();
+      }
     },[notificationCount]);
 
 
@@ -39,18 +40,25 @@ function Header() {
               <FaSearch className={styles.search_icon} />
             </div>
           </div>
-          <div className={styles.navbar_items}>
-            <div className={styles.navbar_notification}>
-              <FaBell className={styles.notification_icon} />
-              {notificationCount > 0 && (
-                <div className={styles.notification_count}>{notificationCount}</div>
-              )}
-            </div>
-            <div className={styles.navbar_user}>
-              <FaUserCircle className={styles.user_icon} />
-              <span className={styles.user_name}>{userName}</span>
-            </div>
-          </div>
+          {localStorage.getItem("Token")?(
+             <div className={styles.navbar_items}>
+             <div className={styles.navbar_notification}>
+               <FaBell className={styles.notification_icon} />
+               {notificationCount > 0 && (
+                 <div className={styles.notification_count}>{notificationCount}</div>
+               )}
+             </div>
+             <div className={styles.navbar_user}>
+               <FaUserCircle className={styles.user_icon} />
+               <span className={styles.user_name}>{userName}</span>
+             </div>
+           </div>):(
+             <div className={styles.navbar_items}>
+                <a href="/#/login">SignIn</a>
+                </div>
+            )
+          }
+         
           
         </div>
         

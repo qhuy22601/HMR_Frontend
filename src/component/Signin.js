@@ -70,6 +70,18 @@ function Signin() {
     }
   }
 
+  const clearLocalStorage = () => {
+    localStorage.clear();
+  }
+  
+  useEffect(() => {
+    const interval = setInterval(clearLocalStorage, 10000); 
+  
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">

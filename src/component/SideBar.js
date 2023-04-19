@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './styles/SideBar.module.css';
 import { FaHome, FaUser, FaMoneyBillAlt, FaCog, FaCalendarTimes } from 'react-icons/fa';
 import { Link, Outlet, useNavigate } from "react-router-dom";
+import { BiLogOut } from "react-icons/bi";
 
 function SideBar() {
   return (
@@ -37,6 +38,12 @@ function SideBar() {
         <span className={styles.sidebar_nav_link}>
           <FaCog className={styles.sidebar_icon} />
           <span className={styles.sidebar_text}>Settings</span>
+        </span>
+      </li>
+      <li className={styles.sidebar_nav_item}>
+        <span className={styles.sidebar_nav_link}>
+          <BiLogOut className={styles.sidebar_icon} />
+          <span className={styles.sidebar_text}>Log Out</span>
         </span>
       </li>
     </ul>

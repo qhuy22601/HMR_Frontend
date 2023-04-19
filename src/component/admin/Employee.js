@@ -3,6 +3,8 @@ import axios from "axios";
 import { Form, Input, Modal, Space, Table } from 'antd';
 import { DeleteOutlined, EditOutlined, PlusCircleTwoTone, CheckCircleTwoTone } from '@ant-design/icons';
 import NewEmModal from "../NewEmModal";
+import styles from '../styles/Employee.module.css';
+
 
 export default function Employee(){
 
@@ -186,7 +188,7 @@ export default function Employee(){
     }
 
     return(
-        <div>
+        <div className={styles.table}>
         <PlusCircleTwoTone onClick={() => showAdd()}
          style={{fontSize:30, padding:20, float:"right"}}/>
             <Table  columns={columns} dataSource={employee} rowKey={(record) =>record.id} />
