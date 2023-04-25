@@ -5,6 +5,11 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
 
 function SideBar() {
+
+  // function logout(){
+  //   localStorage.clear();
+  // }                                                                                                                                                                                                                                                                                                                                                                      )
+
   return (
     <div className={styles.sidebar}>
     <ul className={styles.sidebar_nav}>
@@ -40,7 +45,7 @@ function SideBar() {
           <span className={styles.sidebar_text}>Settings</span>
         </span>
       </li>
-      <li className={styles.sidebar_nav_item}>
+      <li className={styles.sidebar_nav_item} onClick={""}>
         <span className={styles.sidebar_nav_link}>
           <BiLogOut className={styles.sidebar_icon} />
           <span className={styles.sidebar_text}>Log Out</span>

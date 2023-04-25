@@ -154,7 +154,7 @@ export default function Employee(){
 
     async function edit(data){
     await axios
-    .post("/api/auth/changename",
+    .post("/api/auth/change",
      data,
      {
      headers:{

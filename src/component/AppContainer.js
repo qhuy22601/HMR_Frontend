@@ -7,6 +7,7 @@ import Signin from "./Signin";
 import Home from "./Home";
 import Employee from "./admin/Employee";
 import State from "./State";
+import Profile from "./Profile";
 
 
 function AppContainer(){
@@ -15,6 +16,7 @@ return(
       <Routes>
         <Route path="/" element={<State/>} />
         <Route path="/login" element={<Signin/>} />
+        <Route path="/profile" element={<Profile/>}/>
         <Route path="/home" element={<Home/>}>
           <Route path="absence" element={<AbsenceAdmin/>}/>
           <Route path="employee" element={<Employee/>}/>

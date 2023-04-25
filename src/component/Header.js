@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
 function Header() {
     const [notificationCount, setNotificationCount] = useState();
     const userName = localStorage.getItem("UserName")
+    const [notif, setNotif] = useState([])
+    const [showNotifications, setShowNotifications] = useState(false);
  
     async function countUnread(){
         const res = await axios({
@@ -26,6 +28,29 @@ function Header() {
       }
     },[notificationCount]);
 
+    const handleBellClick = () => {
+    setShowNotifications(!showNotifications);
+    console.log("jdidsa")
+    getNotif(); 
+    console.log(notif);
+  };
+
+    async function getNotif(){
+      const res = await axios.get("/api/absence/notif",
+        {
+          headers:{
+            Authorization: localStorage.getItem("Token")
+          }
+        }
+      )
+      if(res.data!=null&& res.data.status ==="Fail"){
+        console.log(res.data.mess)
+      }if (res.data != null && res.data.status === "Success") {
+        console.log(res.data.mess);
+        setNotif(res.data.payload);
+      }
+    }
+
 
     return (
       <div className={styles.navbar}>
@@ -40,28 +65,47 @@ function Header() {
               <FaSearch className={styles.search_icon} />
             </div>
           </div>
-          {localStorage.getItem("Token")?(
-             <div className={styles.navbar_items}>
-             <div className={styles.navbar_notification}>
-               <FaBell className={styles.notification_icon} />
-               {notificationCount > 0 && (
-                 <div className={styles.notification_count}>{notificationCount}</div>
-               )}
-             </div>
-             <div className={styles.navbar_user}>
-               <FaUserCircle className={styles.user_icon} />
-               <span className={styles.user_name}>{userName}</span>
-             </div>
-           </div>):(
-             <div className={styles.navbar_items}>
-                <a href="/#/login">SignIn</a>
-                </div>
-            )
-          }
-         
-          
+          {localStorage.getItem("Token") ? (
+            <div className={styles.navbar_items}>
+              <div
+                className={styles.navbar_notification}
+                onClick={handleBellClick}
+              >
+                <FaBell className={styles.notification_icon} />
+                {notificationCount > 0 && (
+                  <div className={styles.notification_count}>
+                    {notificationCount}
+                  </div>
+                )}
+                {showNotifications && (
+                  <div className={styles.notification_dropdown}>
+                    {notif.map((notification) => {
+                      return (
+                        <div
+                          key={notification.id}
+                          className={styles.notification_item}
+                        >
+                          <div className={styles.notification_status}>
+                            {notification.status}
+                          </div>
+                        </div>
+                      );})}
+                  </div>
+                )}
+              </div>
+              <div className={styles.navbar_user}>
+                <FaUserCircle className={styles.user_icon} />
+                <a href="/#/profile" className={styles.user_name}>
+                  {userName}
+                </a>
+              </div>
+            </div>
+          ) : (
+            <div className={styles.navbar_items}>
+              <a href="/#/login">SignIn</a>
+            </div>
+          )}
         </div>
-        
       </div>
     );
   };

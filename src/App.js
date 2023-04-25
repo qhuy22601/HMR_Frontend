@@ -7,7 +7,7 @@ function App() {
   return (
     <div className={styles.container}>
       <Header/>
-      <AppContainer/>
+      <AppContainer/> 
     </div>
   );
 }
