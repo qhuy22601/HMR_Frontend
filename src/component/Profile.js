@@ -6,6 +6,9 @@ import * as yup from "yup";
 import { Formik } from "formik";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import bcrypt from "bcryptjs";
+
+
 const Profile = () => {
   const [name, setName] = useState(localStorage.getItem("UserName"));
   const [email, setEmail] = useState(localStorage.getItem("Email"));

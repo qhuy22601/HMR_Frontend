@@ -1,16 +1,22 @@
 import React from "react";
-import SideBar from "./SideBar";
+import Header from "./Header";
 import styles from "./styles/State.module.css"
-export default function State(){
+import { Outlet } from "react-router-dom";
 
-    return(
-        <>
-            <div className={styles.container}>
-                <SideBar></SideBar>
-                <div className={styles.main}>
-                    <div>HMRS</div>
-                </div>
-            </div>
-        </>
+
+export default function State(){
+    const handleLoginRedirect = () => {
+    window.location.href = "#/login";  
+    };
+    return (
+      <>
+        <div className={styles.container}>
+          <Header onLoginRedirect={handleLoginRedirect} />
+          {/* <div className={styles.main}>
+            <div>HMRS</div>
+          </div> */}
+
+        </div>
+      </>
     );
 }

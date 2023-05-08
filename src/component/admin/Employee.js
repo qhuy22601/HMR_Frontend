@@ -4,88 +4,100 @@ import { Form, Input, Modal, Space, Table } from 'antd';
 import { DeleteOutlined, EditOutlined, PlusCircleTwoTone, CheckCircleTwoTone } from '@ant-design/icons';
 import NewEmModal from "../NewEmModal";
 import styles from '../styles/Employee.module.css';
-
+import Header from "../Header";
 
 export default function Employee(){
 
     
     const columns = [
-        // {
-        // title: 'Id',
-        //   dataIndex: 'id',
-        //   key: 'id',
-        //   render: (text) => <a>{text}</a>,
-        // },
-        {
-          title: 'Name',
-          dataIndex: 'username',
-          key: 'username',
-          render: (text) =><a>{text}</a>
-        },
-        {
-            title: 'Email',
-            dataIndex: 'email',
-            key: 'email',
-            render: (text) => <a>{text}</a>,
-          },
-        {
-          title: 'Hire Date',
-          dataIndex: 'hireDate',
-          key: 'hireDate',
-        },
-        {
-            title: 'Gender',
-            dataIndex: 'gender',
-            key: 'gender',
-          },
-          {
-            title: 'Phone Number',
-            dataIndex: 'phoneNumber',
-            key: 'phoneNumber',
-          },
-        {
-          title: 'Address',
-          dataIndex: 'address',
-          key: 'address',
-        },
-        {
-            title: 'Image',
-            dataIndex: 'image',
-            key: 'image',
-          },
-          {
-            title: 'Balance',
-            dataIndex: 'balance',
-            key: 'balance',
-          },
-          {
-            title: 'Level',
-            dataIndex: 'level',
-            key: 'level',
-          },
-          {
-            title: 'Create At',
-            dataIndex: 'createdAt',
-            key: 'createAt',
-          },
-          {
-            title: 'Role',
-            dataIndex: 'role',
-            key: 'role',
-          },
-        {
-          title: 'Action',
-          key: 'action',
-          render: (_, record) => (
-            <Space size="middle">
-                <EditOutlined
-                type="link"
-                onClick={()=>showEdit(record)} />
-                <DeleteOutlined style={{color: 'red'}} />
-            </Space>
-          ),
-        },
-      ];
+      // {
+      // title: 'Id',
+      //   dataIndex: 'id',
+      //   key: 'id',
+      //   render: (text) => <a>{text}</a>,
+      // },
+      {
+        title: "Image",
+        dataIndex: "image",
+        key: "image",
+        size: "small",
+        render: (image) => (
+          <img
+            alt={image}
+            src={image}
+            style={{
+              width: 50,
+              height: 50,
+              border: "1px solid #d9d9d9",
+              borderRadius: "10%",
+            }}
+          />
+        ),
+      },
+      {
+        title: "Name",
+        dataIndex: "username",
+        key: "username",
+        render: (text) => <a>{text}</a>,
+      },
+      {
+        title: "Email",
+        dataIndex: "email",
+        key: "email",
+        render: (text) => <a>{text}</a>,
+      },
+      {
+        title: "Hire Date",
+        dataIndex: "hireDate",
+        key: "hireDate",
+      },
+      {
+        title: "Gender",
+        dataIndex: "gender",
+        key: "gender",
+      },
+      {
+        title: "Phone Number",
+        dataIndex: "phoneNumber",
+        key: "phoneNumber",
+      },
+      {
+        title: "Address",
+        dataIndex: "address",
+        key: "address",
+      },
+
+      {
+        title: "Balance",
+        dataIndex: "balance",
+        key: "balance",
+      },
+      {
+        title: "Level",
+        dataIndex: "level",
+        key: "level",
+      },
+      {
+        title: "Create At",
+        dataIndex: "createdAt",
+        key: "createAt",
+      },
+      {
+        title: "Role",
+        dataIndex: "role",
+        key: "role",
+      },
+      {
+        title: "Action",
+        key: "action",
+        render: (_, record) => (
+          <Space size="middle">
+            <EditOutlined type="link" onClick={() => showEdit(record)} />
+            <DeleteOutlined style={{ color: "red" }} />
+          </Space>
+        ),
+      },
+    ];
 
 
     const [employee, setEmployee] = useState([]);
@@ -112,7 +124,7 @@ export default function Employee(){
 
     useEffect(()=>{
         getAllEm();
-    });
+    },[]);
 
     function showAdd(){
         setVisibleModal(true)
@@ -154,7 +166,7 @@ export default function Employee(){
 
     async function edit(data){
     await axios
-    .post("/api/auth/change",
+    .post("/api/auth/changename",
      data,
      {
      headers:{
@@ -187,12 +199,26 @@ export default function Employee(){
         hiddenModal();
     }
 
-    return(
-        <div className={styles.table}>
-        <PlusCircleTwoTone onClick={() => showAdd()}
-         style={{fontSize:30, padding:20, float:"right"}}/>
-            <Table  columns={columns} dataSource={employee} rowKey={(record) =>record.id} />
-        <NewEmModal save={save} dataEdit={DataEdit} visible={visibleModal} hiddenModal={hiddenModal} action={action}></NewEmModal>
-        </div>
+    return (
+      <div className={styles.table}>
+        <Header></Header>
+        <PlusCircleTwoTone
+          onClick={() => showAdd()}
+          style={{ fontSize: 30, padding: 20, float: "right" }}
+        />
+        <Table
+          columns={columns}
+          dataSource={employee}
+          rowKey={(record) => record.id}
+          bordered
+        />
+        <NewEmModal
+          save={save}
+          dataEdit={DataEdit}
+          visible={visibleModal}
+          hiddenModal={hiddenModal}
+          action={action}
+        ></NewEmModal>
+      </div>
     );
 }

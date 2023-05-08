@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import Header from "../Header"
 import SideBar from "../SideBar";
+import styles from "../styles/Absence.module.css"
 
 function AbsenceAdmin(){
     const [data, setData] = useState([])
@@ -56,8 +57,9 @@ function AbsenceAdmin(){
         
     // },[])
     return (
-        <div>
-            <div>   
+        <div className={styles.container}>
+            <Header></Header>
+            <div className={styles.list_leave}>   
             {data.map((item) =>{
                 return (
                     <div key={item.id}>

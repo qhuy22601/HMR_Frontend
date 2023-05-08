@@ -6,8 +6,7 @@ import styles from './component/styles/All.module.css'
 function App() {
   return (
     <div className={styles.container}>
-      <Header/>
-      <AppContainer/> 
+      <AppContainer />
     </div>
   );
 }

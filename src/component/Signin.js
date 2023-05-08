@@ -82,7 +82,7 @@ function Signin() {
         response.data.payload.userModel.password
       );
       localStorage.setItem("Token", response.data.payload.token);
-      navigate("/home");
+      navigate("/");
     }
   }
 
