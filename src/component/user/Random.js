@@ -1,73 +1,62 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import Modal from "react-modal";
+import React, { useState, useEffect } from 'react';
 
-
-function Random() {
-  const [question, setQuestion] = useState(null);
-  const [answer, setAnswer] = useState('');
-  const [isCorrect, setIsCorrect] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-
-
-  async function fetch(){
-    const res = await axios({
-        method: 'GET',
-        url:"/api/test",
-        headers: {
-            Authorization: localStorage.getItem("Token")
-        },
-    });
-    setQuestion(res.data);
-  }
-
+const Random = () => {
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isFormClosed, setIsFormClosed] = useState(true);
 
   useEffect(() => {
-
-    fetch()
-    const randomTime = Math.floor(Math.random() * (5 - 3 + 1) + 3) * 60 * 60 * 1000;
-
-    // Set an interval to open the modal window after the random time
     const interval = setInterval(() => {
-      setIsOpen(true);
-    }, randomTime);
+      if (!isFormOpen && isFormClosed) {
+        setIsFormOpen(true);
+      }
+    }, 60000);
 
-    // Clear the interval when the component is unmounted
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [isFormOpen, isFormClosed]);
 
-  }, []);
+  const handleCloseForm = () => {
+    setIsFormOpen(false);
+    setIsFormClosed(true);
+  };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const response = await axios.post('/questions/validate', {
-      questionId: question.id,
-      answer: answer
-    });
-    setIsCorrect(response.data);
-  }
+  const handleOpenForm = () => {
+    setIsFormOpen(true);
+    setIsFormClosed(false);
+  };
 
-  const handleAnswerChange = (event) => {
-    setAnswer(event.target.value);
-  }
+  useEffect(() => {
+    if (!isFormOpen && !isFormClosed) {
+      const confirmation = window.confirm('Are you sure you want to close the form?');
+      if (confirmation) {
+        handleCloseForm();
+      }
+    }
+  }, [isFormOpen, isFormClosed]);
 
   return (
-    <Modal isOpen={isOpen}>
-      {question && (
-        <div className={styles.modal} style={{ display: isCorrect ? 'none' : 'block' }}>
-          <div className={styles.modal-content}>
-            <h2>{question.title}</h2>
-            <p>{question.description}</p>
-            <form onSubmit={handleSubmit}>
-              <label htmlFor="answer">Answer:</label>
-              <input type="text" id="answer" name="answer" value={answer} onChange={handleAnswerChange} />
-              <button type="submit">Submit</button>
-            </form>
-          </div>
+    <div>
+      {!isFormOpen && isFormClosed && (
+        <button onClick={handleOpenForm}>Open Form</button>
+      )}
+
+      {isFormOpen && !isFormClosed && (
+        <div className="formContainer">
+          {/* Your form JSX */}
+          <h1>hjidashidashidashihdasihdiasdhiasdhiasdhiasdh</h1>
+          <h1>hjidashidashidashihdasihdiasdhiasdhiasdhiasdh</h1>
+          <h1>hjidashidashidashihdasihdiasdhiasdhiasdhiasdh</h1>
+          <h1>hjidashidashidashihdasihdiasdhiasdhiasdhiasdh</h1>
+          <h1>hjidashidashidashihdasihdiasdhiasdhiasdhiasdh</h1>
+          <h1>hjidashidashidashihdasihdiasdhiasdhiasdhiasdh</h1>
+          <h1>hjidashidashidashihdasihdiasdhiasdhiasdhiasdh</h1>
+          <h1>hjidashidashidashihdasihdiasdhiasdhiasdhiasdh</h1>
+          <button onClick={handleCloseForm}>Close</button>
         </div>
       )}
-      {isCorrect && <p>Congratulations, you answered the question correctly!</p>}
-    </Modal>
+    </div>
   );
-}
+};
 
 export default Random;

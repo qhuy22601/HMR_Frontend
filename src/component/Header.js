@@ -36,6 +36,20 @@ function Header({ onLoginRedirect }) {
       }
     }
   }
+  async function read() {
+    try {
+      const res = await axios({
+        method: "put",
+        url: "/api/absence/unread",
+        headers: {
+          Authorization: localStorage.getItem("Token"),
+        },
+      });
+    } catch (error) {
+      console.log(error.response.status);
+      
+    }
+  }
 
   useEffect(() => {
     if (localStorage.getItem("Token")) {
@@ -62,6 +76,7 @@ function Header({ onLoginRedirect }) {
     if (res.data != null && res.data.status === "Success") {
       console.log(res.data.mess);
       setNotif(res.data.payload);
+      read()
     }
   }
 

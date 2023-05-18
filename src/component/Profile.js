@@ -6,8 +6,7 @@ import * as yup from "yup";
 import { Formik } from "formik";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import bcrypt from "bcryptjs";
-
+import Header from "./Header"
 
 const Profile = () => {
   const [name, setName] = useState(localStorage.getItem("UserName"));
@@ -138,7 +137,8 @@ const Profile = () => {
   }
 
   return (
-    <div className={styles.profile_container}>
+    <div className={styles.container}>
+      <Header></Header>
       <Formik
         validationSchema={schema}
         initialValues={{

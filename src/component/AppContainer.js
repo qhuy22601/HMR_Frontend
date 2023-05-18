@@ -1,14 +1,12 @@
 import React from "react";
-import {  Route, Routes, HashRouter } from 'react-router-dom';
-
-
+import { HashRouter, Route, Routes } from 'react-router-dom';
 import AbsenceAdmin from "./admin/AbsenceAdmin";
 import Signin from "./Signin";
-import Home from "./Home";
 import Employee from "./admin/Employee";
 import State from "./State";
 import Profile from "./Profile";
 import Header from "./Header";
+import ChatWebSocket from "./ChatWebSocket";
 
 
 function AppContainer(){
@@ -21,6 +19,7 @@ return (
       <Route path="/login" element={<Signin />} />
       <Route path="/headert" element={<Header />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/chat" element={<ChatWebSocket />} />
     </Routes>
   </HashRouter>
 );

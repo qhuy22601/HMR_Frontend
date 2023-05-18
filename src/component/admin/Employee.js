@@ -74,7 +74,7 @@ export default function Employee(){
       },
       {
         title: "Level",
-        dataIndex: "level",
+        dataIndex: "payGrade",
         key: "level",
       },
       {
@@ -180,7 +180,7 @@ export default function Employee(){
         }
         if(result.data!=null && result.data.status==="Success"){
             console.log(result.data.message);
-            localStorage.setItem("UserName", result.data.payload.username);
+            // localStorage.setItem("UserName", result.data.payload.username);
         }
      })
      .catch((err) => {
