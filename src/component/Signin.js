@@ -71,6 +71,16 @@ function Signin() {
         "PhoneNumber",
         response.data.payload.userModel.phoneNumber
       );
+      localStorage.setItem(
+        "isAvatarImageSet",
+        true
+      );
+        localStorage.setItem(
+          "UserAvata",
+          response.data.payload.userModel.image
+        );
+
+
       if (response.data.payload.userModel.image != null) {
         localStorage.setItem("Avata", response.data.payload.userModel.image);
       }else{
@@ -82,6 +92,10 @@ function Signin() {
         response.data.payload.userModel.password
       );
       localStorage.setItem("Token", response.data.payload.token);
+      localStorage.setItem(
+        "chat-app-current-user",
+        JSON.stringify(response.data.payload.userModel)
+      );
       navigate("/");
     }
   }

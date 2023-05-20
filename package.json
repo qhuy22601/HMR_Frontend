@@ -23,6 +23,7 @@
     "crypto-browserify": "^3.12.0",
     "crypto-js": "^4.1.1",
     "eases": "^1.0.8",
+    "emoji-picker-react": "^4.4.9",
     "formik": "^2.2.9",
     "gsap": "^3.11.5",
     "net": "^1.0.2",
@@ -37,6 +38,7 @@
     "socket.io-client": "^4.6.1",
     "sockjs-client": "^1.6.1",
     "stompjs": "^2.3.3",
+    "styled-components": "^5.3.3",
     "web-vitals": "^2.1.4",
     "websocket": "^1.0.34",
     "yup": "^1.1.1"

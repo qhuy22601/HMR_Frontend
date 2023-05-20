@@ -6,8 +6,8 @@ import Employee from "./admin/Employee";
 import State from "./State";
 import Profile from "./Profile";
 import Header from "./Header";
-import ChatWebSocket from "./ChatWebSocket";
-
+import Chat from "./pages/Chat"
+import Test from "./Test";
 
 function AppContainer(){
 return (
@@ -19,7 +19,8 @@ return (
       <Route path="/login" element={<Signin />} />
       <Route path="/headert" element={<Header />} />
       <Route path="/profile" element={<Profile />} />
-      <Route path="/chat" element={<ChatWebSocket />} />
+      <Route path="/chat" element={<Chat />} />
+      <Route path="/test" element={<Test />} />
     </Routes>
   </HashRouter>
 );
