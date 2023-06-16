@@ -182,3 +182,63 @@
 .sidebar_text {
   margin-right: 16px;
 }
+.mess {
+  position: relative;
+}
+
+.contactsContainer {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 300px;
+  background-color: #fff;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  padding: 10px;
+  z-index: 1;
+}
+
+.contacts {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.contacts li {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+}
+
+.contacts li:hover {
+  background-color: #f2f3f5;
+  cursor: pointer;
+}
+
+.contacts li .avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.contacts li .name {
+  font-weight: 500;
+}
+
+.contacts li .status {
+  color: #777;
+}
+
+.chat {
+  position: fixed;
+  bottom: calc(30% + 20px);
+  /* Adjust the value as needed */
+  right: 0;
+  border: solid 1px #333;
+  background-color: #888;
+}
+
+.chatContainer {
+  height: 30%;
+}

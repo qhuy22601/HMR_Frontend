@@ -63,8 +63,16 @@ function Signin() {
       localStorage.setItem("Email", response.data.payload.userModel.email);
       localStorage.setItem("Id", response.data.payload.userModel.id);
       localStorage.setItem(
-        "UserName",
-        response.data.payload.userModel.username
+        "FirstName",
+        response.data.payload.userModel.firstName
+      );
+      localStorage.setItem(
+        "LastName",
+        response.data.payload.userModel.lastName
+      );
+      localStorage.setItem(
+        "Gender",
+        response.data.payload.userModel.gender
       );
       localStorage.setItem("Address", response.data.payload.userModel.address);
       localStorage.setItem(
