@@ -10,9 +10,9 @@ export const AccountPopover = (props) => {
   const handleSignOut = useCallback(() => {
     onClose?.();
     axios
-      .post("/api/auth/logout")
+      .post(`${process.env.REACT_APP_BACK_END}/api/auth/logout`)
       .then((response) => {
-        window.location.href = "/#/login";
+        window.location.href = "/login";
       })
       .catch((error) => {
         console.error("Sign-out failed:", error);
@@ -42,7 +42,7 @@ export const AccountPopover = (props) => {
           px: 2,
         }}
       >
-        <Typography variant="overline">Account</Typography>
+        <Typography variant="overline">Tài khoản</Typography>
         <Typography color="text.secondary" variant="body2">
           {name}
         </Typography>
@@ -58,7 +58,7 @@ export const AccountPopover = (props) => {
           },
         }}
       >
-        <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
+        <MenuItem onClick={handleSignOut}>Đăng xuất</MenuItem>
       </MenuList>
     </Popover>
   );

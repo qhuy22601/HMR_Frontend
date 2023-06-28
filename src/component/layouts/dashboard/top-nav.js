@@ -58,7 +58,7 @@ export const TopNav = (props) => {
     try {
       const res = await axios({
         method: "get",
-        url: "/api/absence/count-unread",
+        url: `${process.env.REACT_APP_BACK_END}/api/absence/count-unread`,
         headers: {
           Authorization: localStorage.getItem("Token"),
         },
@@ -75,7 +75,7 @@ export const TopNav = (props) => {
     try {
       const res = await axios({
         method: "put",
-        url: "/api/absence/unread",
+        url: `${process.env.REACT_APP_BACK_END}/api/absence/unread`,
         headers: {
           Authorization: localStorage.getItem("Token"),
         },
@@ -125,7 +125,7 @@ export const TopNav = (props) => {
   };
 
   async function getNotif() {
-    const res = await axios.get("/api/absence/notif", {
+    const res = await axios.get(`${process.env.REACT_APP_BACK_END}/api/absence/notif`, {
       headers: {
         Authorization: localStorage.getItem("Token"),
       },

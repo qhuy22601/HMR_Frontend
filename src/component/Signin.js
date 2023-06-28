@@ -19,7 +19,8 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
-
+import { backend } from "./utils/APIRoutes";
+import {message} from 'antd';
 const theme = createTheme();
 
 function Signin() {
@@ -45,21 +46,22 @@ function Signin() {
   async function postSignInInfo(inputData) {
     const response = await axios({
       method: "post",
-      url: "/api/auth/login",
+      url: `${process.env.REACT_APP_BACK_END}/api/auth/login`,
       data: {
         email: inputData.email,
         password: inputData.password,
       },
     });
 
-    if (response.data !== null && response.data.message === "Fail") {
-      toastWarning(response.data.message);
+    if (response.data !== null && response.data.status === "Fail") {
+      toastWarning("Sai mật khẩu hoặc email");
+     
       console.log(response.data.status);
     }
 
     if (response.data !== null && response.data.status === "Success") {
       setResData(response.data.status);
-      toastSuccess(response.data.status);
+      toastSuccess("Đăng nhập thành công");
       localStorage.setItem("Email", response.data.payload.userModel.email);
       localStorage.setItem("Id", response.data.payload.userModel.id);
       localStorage.setItem(
@@ -108,17 +110,17 @@ function Signin() {
     }
   }
 
-  const clearLocalStorage = () => {
-    localStorage.clear();
-  };
+  // const clearLocalStorage = () => {
+  //   localStorage.clear();
+  // };
 
-  useEffect(() => {
-    const interval = setInterval(clearLocalStorage, 10000);
+  // useEffect(() => {
+  //   const interval = setInterval(clearLocalStorage, 10000);
 
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -137,7 +139,7 @@ function Signin() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Đăng nhập
           </Typography>
           <Formik
             validationSchema={schema}
@@ -170,12 +172,14 @@ function Signin() {
                   required
                   fullWidth
                   id="email"
-                  label="Email Address"
+                  label="Email"
                   name="email"
                   autoComplete="email"
                   onChange={handleChange}
                   value={values.email}
                   autoFocus
+                  error={touched.email && Boolean(errors.email)}
+                  helperText={touched.email && errors.email}
                 />
                 <TextField
                   margin="normal"
@@ -189,28 +193,28 @@ function Signin() {
                   onChange={handleChange}
                   autoComplete="current-password"
                 />
-                <FormControlLabel
+                {/* <FormControlLabel
                   control={<Checkbox value="remember" color="primary" />}
                   label="Remember me"
-                />
+                /> */}
                 <Button
                   type="submit"
                   fullWidth
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
                 >
-                  Sign In
+                  Đăng nhập
                 </Button>
-                <Grid container>
+                {/* <Grid container>
                   <Grid item xs>
-                    <Link variant="body2">Forgot password?</Link>
+                    <Link variant="body2"></Link>
                   </Grid>
                   <Grid item>
                     <Link variant="body2">
                       {"Don't have an account? Sign Up"}
                     </Link>
                   </Grid>
-                </Grid>
+                </Grid> */}
               </Box>
             )}
           </Formik>

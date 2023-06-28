@@ -7,7 +7,13 @@ import FileDisplay from "./pages/FileDisplay";
 import { ThemeProvider } from "@mui/material/styles";
 import { createTheme } from "./theme";
 import Header from "./Header";
-import { Box, Card, Container, Unstable_Grid2 as Grid } from "@mui/material";
+import {
+  Box,
+  Card,
+  Container,
+  Unstable_Grid2 as Grid,
+  Typography,
+} from "@mui/material";
 import { Layout as DashboardLayout } from "./layouts/dashboard/layout";
 import { OverviewBudget } from "./sections/overview/overview-budget";
 import { OverviewLatestOrders } from "./sections/overview/overview-latest-orders";
@@ -17,6 +23,9 @@ import { OverviewTasksProgress } from "./sections/overview/overview-tasks-progre
 import { OverviewTotalCustomers } from "./sections/overview/overview-total-customers";
 import { OverviewTotalProfit } from "./sections/overview/overview-total-profit";
 import { OverviewTraffic } from "./sections/overview/overview-traffic";
+import BirthDate from "./pages/BirthDate";
+import { backend } from "./utils/APIRoutes";
+
 const SIDE_NAV_WIDTH = 280;
 
 const LayoutRoot = styled.div`
@@ -39,7 +48,7 @@ const LayoutContainer = styled.div`
 
 export default function State() {
   const handleLoginRedirect = () => {
-    window.location.href = "#/login";
+    window.location.href = "/login";
   };
 
   const location = useLocation();
@@ -68,9 +77,9 @@ export default function State() {
               sx={{
                 flexGrow: 1,
                 py: 8,
-                width:"80%",
-                marginLeft:"auto",
-                marginRight:0
+                width: "80%",
+                marginLeft: "auto",
+                marginRight: 0,
               }}
             >
               <Container maxWidth="xl">
@@ -101,10 +110,37 @@ export default function State() {
                     <OverviewTotalProfit sx={{ height: "100%" }} value="$15k" />
                   </Grid>
                   <Grid xs={12} lg={8}>
-                    <Box>Sale</Box>
+                    <Box
+                      style={{
+                        backgroundImage:
+                          "url('https://marketplace.canva.com/EAE9XG0hOgk/1/0/1600w/canva-pink-red-colorful-birthday-zoom-virtual-background-32bHJ9XZg4U.jpg')",
+                        backgroundSize: "cover",
+                        padding: "10px",
+
+                        minHeight: "645px", // Adjust the height as needed
+                      }}
+                    >
+                      <Typography
+                        variant="h4"
+                        style={{
+                          marginBottom: "40px",
+                        }}
+                      >
+                        Sinh nhật trong tháng:{" "}
+                      </Typography>
+                      <BirthDate></BirthDate>
+                    </Box>
                   </Grid>
                   <Grid xs={12} md={6} lg={4}>
                     <Card>
+                      <Typography
+                        variant="h4"
+                        style={{
+                          marginBottom: "10px",
+                        }}
+                      >
+                        Tin:{" "}
+                      </Typography>
                       <FileDisplay></FileDisplay>
                     </Card>
                   </Grid>

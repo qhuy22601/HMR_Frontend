@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { SideNav } from "../layouts/dashboard/side-nav";
 import { TopNav } from "../layouts/dashboard/top-nav";
 import axios from "axios";
-import { Form, Input, Modal, Space, Table } from "antd";
+import { Form, Input, Modal, Space, Table, Image } from "antd";
 import {
   DeleteOutlined,
   EditOutlined,
@@ -18,6 +18,7 @@ import { Link } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import { createTheme } from "../theme";
 import moment from "moment";
+import { backend } from "../utils/APIRoutes";
 
 const SIDE_NAV_WIDTH = 280;
 
@@ -47,23 +48,23 @@ export default function Employee() {
     //   render: (text) => <a>{text}</a>,
     // },
     {
-      title: "Image",
+      title: "Ảnh",
       dataIndex: "image",
       key: "image",
       size: "small",
-      render: (image) => (
-        <Link to={`/profile/${image}`}>
-          <img
-            alt={image}
-            src={image}
-            style={{
-              width: 50,
-              height: 50,
-              border: "1px solid #d9d9d9",
-              borderRadius: "10%",
-            }}
-          />
-        </Link>
+      render: (image, record) => (
+        // <Link to={`/profile/${record.id}`}>
+        <Image
+          alt={image}
+          src={image}
+          style={{
+            width: 50,
+            height: 50,
+            border: "1px solid #d9d9d9",
+            borderRadius: "10%",
+          }}
+        />
+        // </Link>
       ),
     },
     {
@@ -77,57 +78,61 @@ export default function Employee() {
       ),
     },
     {
-      title: "First Name",
+      title: "Họ",
       dataIndex: "firstName",
       key: "firstName",
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "Last Name",
+      title: "Tên",
       dataIndex: "lastName",
       key: "lastName",
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "Gender",
+      title: "Giới tính",
       dataIndex: "gender",
       key: "gender",
     },
     {
-      title: "Phone Number",
+      title: "SĐT",
       dataIndex: "phoneNumber",
       key: "phoneNumber",
     },
     {
-      title: "BirthDate",
+      title: "Ngày sinh",
       dataIndex: "birthDate",
       key: "birthDate",
-      render: (text) =>
-        moment(text, "YYYY-MM-DD").format("DD-MM-YYYY"),
+      render: (text) => moment(text, "YYYY-MM-DD").format("DD-MM-YYYY"),
     },
-    {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
-    },
+    // {
+    //   title: "Address",
+    //   dataIndex: "address",
+    //   key: "address",
+    // },
 
     {
-      title: "Level",
+      title: "Cấp độ",
       dataIndex: "payGrade",
       key: "level",
     },
     {
-      title: "Role",
+      title: "Vai trò",
       dataIndex: "role",
       key: "role",
     },
     {
-      title: "Action",
+      title: "",
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <EditOutlined type="link" onClick={() => showEdit(record)} />
-          <DeleteOutlined style={{ color: "red" }} />
+          <EditOutlined
+            type="link"
+            onClick={() => showEdit(record)}
+            style={{ color: "#bdbd2f" }}
+            className={styles.yellow_icon}
+          />
+          <DeleteOutlined style={{ color: "red" }} className={styles.red_icon} />
         </Space>
       ),
     },
@@ -141,7 +146,7 @@ export default function Employee() {
   async function getAllEm() {
     const result = await axios({
       method: "get",
-      url: "/api/auth/getall",
+      url:`${process.env.REACT_APP_BACK_END}/api/auth/getall`,
       headers: {
         Authorization: localStorage.getItem("Token"),
       },
@@ -175,7 +180,7 @@ export default function Employee() {
 
   async function signUp(data) {
     await axios
-      .post("/api/auth/save", data, {
+      .post(`${process.env.REACT_APP_BACK_END}/api/auth/save`, data, {
         headers: {
           Authorization: localStorage.getItem("Token"),
         },
@@ -195,7 +200,7 @@ export default function Employee() {
 
   async function edit(data) {
     await axios
-      .post("/api/auth/changename", data, {
+      .post(`${process.env.REACT_APP_BACK_END}/api/auth/changename`, data, {
         headers: {
           Authorization: localStorage.getItem("Token"),
         },

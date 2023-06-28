@@ -233,12 +233,16 @@
 .chat {
   position: fixed;
   bottom: calc(30% + 20px);
-  /* Adjust the value as needed */
   right: 0;
   border: solid 1px #333;
   background-color: #888;
+  z-index: 9999;
+  /* Set a high z-index value */
 }
 
 .chatContainer {
   height: 30%;
+  position: relative;
+  z-index: 10000;
+  /* Set a higher z-index value than other components */
 }

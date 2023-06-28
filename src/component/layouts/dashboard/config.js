@@ -7,11 +7,15 @@ import UserPlusIcon from '@heroicons/react/24/solid/UserPlusIcon';
 import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
 import XCircleIcon from '@heroicons/react/24/solid/XCircleIcon';
 import DocumentDuplicateIcon from "@heroicons/react/24/solid/DocumentDuplicateIcon";
+import NewspaperIcon from "@heroicons/react/24/solid/NewspaperIcon";
+import CircleStackIcon from "@heroicons/react/24/solid/CircleStackIcon";
+import ArrowLeftCircleIcon from "@heroicons/react/24/solid/ArrowLeftCircleIcon";
+import ArrowRightCircleIcon from "@heroicons/react/24/solid/ArrowRightCircleIcon";
 import { SvgIcon } from '@mui/material';
 
 export const items = [
   {
-    title: "Overview",
+    title: "Trang chủ",
     path: "/",
     icon: (
       <SvgIcon fontSize="small">
@@ -20,7 +24,7 @@ export const items = [
     ),
   },
   {
-    title: "Employees",
+    title: "Nhân viên",
     path: "/employee",
     icon: (
       <SvgIcon fontSize="small">
@@ -29,7 +33,7 @@ export const items = [
     ),
   },
   {
-    title: "Leaves",
+    title: "Nghỉ phép",
     path: "/leave",
     icon: (
       <SvgIcon fontSize="small">
@@ -38,7 +42,7 @@ export const items = [
     ),
   },
   {
-    title: "Account",
+    title: "Tài khoản",
     path: "/account",
     icon: (
       <SvgIcon fontSize="small">
@@ -47,7 +51,7 @@ export const items = [
     ),
   },
   {
-    title: "Settings",
+    title: "Cài đặt",
     path: "/settings",
     icon: (
       <SvgIcon fontSize="small">
@@ -56,8 +60,8 @@ export const items = [
     ),
   },
   {
-    title: "Attendace",
-    path: "/attendace",
+    title: "Điểm danh",
+    path: "/attendance",
     icon: (
       <SvgIcon fontSize="small">
         <UserPlusIcon />
@@ -65,22 +69,40 @@ export const items = [
     ),
   },
   {
-    title: "Login",
-    path: "/auth/login",
+    title: "Thông báo",
+    path: "/upload",
     icon: (
       <SvgIcon fontSize="small">
-        <LockClosedIcon />
+        <NewspaperIcon />
       </SvgIcon>
     ),
   },
 
   {
-    title: "Error",
-    path: "/404",
+    title: "Dữ liệu",
+    path: "/image",
     icon: (
       <SvgIcon fontSize="small">
-        <XCircleIcon />
+        <CircleStackIcon />
       </SvgIcon>
     ),
   },
+  // {
+  //   title: "Check In",
+  //   path: "/checkin",
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <ArrowLeftCircleIcon />
+  //     </SvgIcon>
+  //   ),
+  // },
+  // {
+  //   title: "Check Out",
+  //   path: "/checkout",
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <ArrowRightCircleIcon />
+  //     </SvgIcon>
+  //   ),
+  // },
 ];

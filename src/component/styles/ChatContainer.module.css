@@ -37,6 +37,10 @@
     overflow-y: scroll;
     padding: 16px;
 }
+.close{
+    margin-left: auto;
+    margin-right: 0;
+}
 
 .message {
     display: flex;

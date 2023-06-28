@@ -4,11 +4,13 @@ import styles from "../styles/Contact.module.css";
 export default function Contact({ contacts, changeChat }) {
   const [currentUserName, setCurrentUserName] = useState(undefined);
   const [currentUserImage, setCurrentUserImage] = useState(undefined);
+  const [currentFirstName, setCurrentFirstName] = useState(undefined);
   const [currentSelected, setCurrentSelected] = useState(undefined);
   const [currentImage, setCurrentImage] = useState(undefined);
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("chat-app-current-user"));
     setCurrentUserName(data.lastName);
+    setCurrentFirstName(data.firstName)
     setCurrentUserImage(data.image);
     setCurrentImage(data.image);
 
@@ -31,7 +33,8 @@ export default function Contact({ contacts, changeChat }) {
                     index === currentSelected ? "selected" : ""
                   }`}
                   onClick={() => changeCurrentChat(index, contact)}
-                  style={{ display: "flex" }}
+                  style={{ display: "flex" , border:"1px"}}
+                  hover
                 >
                   {contact.image ? (
                     <>
@@ -48,8 +51,16 @@ export default function Contact({ contacts, changeChat }) {
                       </div>
 
                       <div className={styles.username}>
-                        <h2>{contact.lastName}</h2>
-                      </div>
+                          <h4>
+                            {index === currentSelected ? (
+                              <strong>
+                                {contact.lastName} {contact.firstName}
+                              </strong>
+                            ) : (
+                              `${contact.lastName} ${contact.firstName}`
+                            )}
+                          </h4>
+                        </div>
                     </>
                   ) : (
                     <></>

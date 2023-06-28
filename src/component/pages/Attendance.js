@@ -41,7 +41,7 @@
 //   useEffect(() => {
 //     const fetchData = async () => {
 //       try {
-//         const response = await axios.get("/api/attendance/getByUserId/" + id); 
+//         const response = await axios.get("http://171.238.155.142:8080/api/attendance/getByUserId/" + id); 
 //         setAttendanceData(response.data);
 //       } catch (error) {
 //         console.log(error.message);
@@ -56,7 +56,7 @@
 
 //   const handleCheckIn = async () => {
 //     try {
-//       await axios.post("http://localhost:8000/api/view_c/");
+//       await axios.post("http://localhost:8000http://171.238.155.142:8080/api/view_c/");
 //       setCameraOn(true);
 //       setCheckedIn(true);
 //     } catch (error) {
@@ -67,7 +67,7 @@
 
 //   const handleCheckOut = async () => {
 //     try {
-//       await axios.post("/api/a");
+//       await axios.post("http://171.238.155.142:8080/api/a");
 //       setCheckedOut(true);
 //     } catch (error) {
 //       console.log(error.message);
@@ -135,9 +135,11 @@ import Header from "../Header";
 import styled from "styled-components";
 import { SideNav } from "../layouts/dashboard/side-nav";
 import axios from "axios";
-import { Button, Table } from "antd";
+import { Button, Table, message } from "antd";
 import moment from "moment";
-
+import { backend } from "../utils/APIRoutes";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 
@@ -217,32 +219,80 @@ const AttendancePage = () => {
       }
     };
   }, [cameraOn]);
-  const handleCheckIn = async () => {
-    try {
-      await axios.post("http://localhost:8000/api/view_c/");
-      setCheckedIn(true);
-      setIsCheckingIn(true);
-    } catch (error) {
-      console.log(error.message);
-      // Handle API error if needed
+  // const handleCheckIn = async () => {
+  //   try {
+  //     await axios.post("http://171.238.155.142:8000/api/view_c/");
+  //     setCheckedIn(true);
+  //     setIsCheckingIn(true);
+  //   } catch (error) {
+  //     console.log(error.message);
+  //     // Handle API error if needed
+  //   }
+  // };
+
+  const handleCheckIn = async() => {
+    try{
+      const res = await axios.post(
+        `${process.env.REACT_APP_BACK_END}/api/attendance/checkin/` + id
+      );
+      if (res.status ===200){
+        toastSuccess("Checkin Successfully")
+        setCheckedIn(true);
+       setIsCheckingIn(true);
+      }else{
+        toastWarning("Checkin Failed");
+      }
+    }catch(error){
+      toastWarning("SomeThingWrong: "+error)
     }
-  };
+  }
+
+  // const handleCheckOut = async () => {
+  //   try {
+  //     await axios.post("http://171.238.155.142:8000/api/view_d/");     
+  //     setCheckedIn(false);
+  //     setIsCheckingIn(false);
+  //   } catch (error) {
+  //     console.log(error.message);
+  //     // Handle API error if needed
+  //   }
+  // };
+  function toastSuccess(message) {
+    toast.success(message, {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+  }
+
+  function toastWarning(message) {
+    toast.warning(message, {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+  }
 
   const handleCheckOut = async () => {
     try {
-      await axios.post("http://localhost:8000/api/view_d/");     
-      setCheckedIn(false);
-      setIsCheckingIn(false);
+      const res = await axios.post(
+        `${process.env.REACT_APP_BACK_END}/api/attendance/testCheckOut/` + id
+      );
+      if (res.status === 200) {
+        // message.success("Checkout Successfully");
+        toastSuccess("Checkout Successfully");
+        setCheckedIn(false);
+        setIsCheckingIn(false);
+      } else {
+        // message.error("Checkout Failed");
+        toastWarning("Checkout Failed");
+      }
     } catch (error) {
-      console.log(error.message);
-      // Handle API error if needed
+      toastWarning("SomeThingWrong: " + error);
     }
   };
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/api/attendance/getByUserId/" + id);
+        const response = await axios.get(`${process.env.REACT_APP_BACK_END}/api/attendance/getByUserId/` + id);
         setAttendanceData(response.data);
         if (response.data && response.data.length > 0) {
           setIsCheckingIn(response.data[0].isCheckin);
@@ -256,10 +306,10 @@ const AttendancePage = () => {
         // Handle API error if needed
       }
     };
-    console.log(isCheckingIn)
-    console.log(checkedIn)
+    // console.log(isCheckingIn)
+    // console.log(checkedIn)
     fetchData();
-  }, [isCheckingIn]);
+  }, [isCheckingIn,id]);
 
   const columns = [
     // {
@@ -292,10 +342,15 @@ const AttendancePage = () => {
         <Header onLoginRedirect={handleLoginRedirect}></Header>
         <SideNav onClose={() => setOpenNav(false)} open={openNav} />
         <LayoutRoot>
+          <ToastContainer />
           <LayoutContainer>
-            <div style={{marginLeft:"auto", marginRight:0, width:"80%"}}>
+            <div style={{ marginLeft: "auto", marginRight: 0, width: "80%" }}>
               {!isCheckingIn && (
-                <Button type="primary" onClick={handleCheckIn}>
+                <Button
+                  style={{ marginTop: "60px" }}
+                  type="primary"
+                  onClick={handleCheckIn}
+                >
                   Check-In
                 </Button>
               )}

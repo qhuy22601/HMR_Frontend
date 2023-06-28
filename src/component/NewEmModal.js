@@ -102,10 +102,10 @@ function NewEmModal(props) {
         onOk={onSave}
         footer={[
           <Button key="submit" type="primary" onClick={onSave}>
-            Add
+            Thêm
           </Button>,
           <Button key="back" onClick={props.hiddenModal}>
-            Cancel
+            Hủy
           </Button>,
         ]}
       >
@@ -157,7 +157,7 @@ function NewEmModal(props) {
                 <Input />
               </Form.Item>
               <Form.Item
-                label="First Name"
+                label="Tên"
                 name="firstName"
                 rules={[
                   {
@@ -168,7 +168,7 @@ function NewEmModal(props) {
                 <Input />
               </Form.Item>
               <Form.Item
-                label="Last Name"
+                label="Họ"
                 name="lastName"
                 rules={[
                   {
@@ -190,7 +190,7 @@ function NewEmModal(props) {
                 <Input />
               </Form.Item>
               <Form.Item
-                label="Password"
+                label="Mật khẩu"
                 name="password"
                 rules={[
                   {
@@ -201,7 +201,7 @@ function NewEmModal(props) {
                 <Input />
               </Form.Item>
               <Form.Item
-                label="Birthday"
+                label="Ngày sinh"
                 name="birthDate"
                 rules={[
                   {
@@ -212,7 +212,7 @@ function NewEmModal(props) {
                 <DatePicker style={{ width: "300px" }} />
               </Form.Item>
               <Form.Item
-                label="Gender"
+                label="Giới tính"
                 name="gender"
                 rules={[
                   {
@@ -226,7 +226,7 @@ function NewEmModal(props) {
                 </Select>
               </Form.Item>
               <Form.Item
-                label="Level"
+                label="Cấp độ"
                 name="payGrade"
                 rules={[
                   {
@@ -260,7 +260,7 @@ function NewEmModal(props) {
                 </Select>
               </Form.Item>
               <Form.Item
-                label="Image"
+                label="Ảnh"
                 name="image"
                 rules={[
                   {

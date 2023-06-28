@@ -16,7 +16,7 @@
 //     // Call the API before closing the popup
 //     if (id) {
 //       try {
-//         await axios.post("/api/absence/" +id);
+//         await axios.post("http://171.238.155.142:8080/api/absence/" +id);
 //         // Handle API response if needed
 //       } catch (error) {
 //         console.log(error.message);
@@ -34,7 +34,7 @@
 
 //   async function getQuestion(){
 //     await axios
-//     .get("/api/quiz/get",
+//     .get("http://171.238.155.142:8080/api/quiz/get",
 //     {
 //       headers:{
 //          Authorization: localStorage.getItem("Token")
@@ -50,7 +50,7 @@
 
 
 //   async function validAnswer(){
-//     await axios.post("/api/quiz/validate/" + data.id,
+//     await axios.post("http://171.238.155.142:8080/api/quiz/validate/" + data.id,
 //     {answer},
 //       {headers:{
 //         Authorization: localStorage.getItem("Token")
@@ -177,7 +177,7 @@ const PopupWindow = ({ onClose, popupInterval }) => {
 
   async function getQuestion() {
     await axios
-      .get("/api/quiz/get", {
+      .get(`${process.env.REACT_APP_BACK_END}/api/quiz/get`, {
         headers: {
           Authorization: localStorage.getItem("Token"),
         },
@@ -193,7 +193,7 @@ const PopupWindow = ({ onClose, popupInterval }) => {
   async function validAnswer() {
     await axios
       .post(
-        `/api/quiz/validate/${data.id}`,
+        `${process.env.REACT_APP_BACK_END}/api/quiz/validate/${data.id}`,
         { answer },
         {
           headers: {
@@ -242,7 +242,7 @@ const PopupWindow = ({ onClose, popupInterval }) => {
     // Call the API if no answer is provided
     if (!answer && id) {
       try {
-        await axios.post(`/api/absence/${id}`);
+        await axios.post(`${process.env.REACT_APP_BACK_END}/api/absence/${id}`);
         // Handle API response if needed
       } catch (error) {
         console.log(error.message);
@@ -322,3 +322,6 @@ function App() {
 }
 
 export default App;
+
+
+
