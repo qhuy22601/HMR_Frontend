@@ -7,6 +7,8 @@ import { createTheme } from "./theme";
 import Header from "./Header";
 import styled from "styled-components";
 import { SideNav } from "../component/layouts/dashboard/side-nav";
+import { backend } from "./utils/APIRoutes";
+
 const SIDE_NAV_WIDTH = 280;
 
 const LayoutRoot = styled.div`
@@ -60,14 +62,14 @@ function Setting() {
                 sx={{
                   flexGrow: 1,
                   py: 8,
-                  marginLeft:"auto",
-                  marginRight:0,
-                  width:"80%"
+                  marginLeft: "auto",
+                  marginRight: 0,
+                  width: "80%",
                 }}
               >
                 <Container maxWidth="lg">
                   <Stack spacing={3}>
-                    <Typography variant="h4">Settings</Typography>
+                    <Typography variant="h4">Cài đặt</Typography>
                     <SettingsPassword />
                   </Stack>
                 </Container>

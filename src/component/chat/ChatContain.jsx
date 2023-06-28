@@ -112,7 +112,7 @@ export default function ChatContain({ currentChat, socket, onClose }) {
             />
           </div>
           <div className={styles.username}>
-            <h3>{currentChat.lastName}</h3>
+            <h3>{currentChat.firstName} {currentChat.lastName} </h3>
           </div>
           <div className={styles.close}>
             <Button onClick={handleClose}>X</Button>

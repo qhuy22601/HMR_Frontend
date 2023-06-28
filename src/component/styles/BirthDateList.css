@@ -1,0 +1,30 @@
+.birth-date-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.birth-date-card {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    height: 100%;
+    width: 250;
+    margin-bottom: 10px;
+    justify-content: center;
+        margin-right: auto;
+            margin-left: auto;
+}
+
+.image-container {
+    display: flex;
+    justify-content: center;
+    border-bottom: 0.5px solid #000;
+        border-width: 0.5px;
+        /* Adjust the border width */
+}
+
+.image-container img {
+    max-height: 200px;
+    /* object-fit: cover; */
+}

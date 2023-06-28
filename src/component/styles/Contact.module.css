@@ -3,6 +3,7 @@
     border-radius: 4px;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
     padding: 10px;
+    background-color: beige;
 }
 
 .contacts {
@@ -20,11 +21,11 @@
 }
 
 .contact:hover {
-    background-color: #adadad;
+    background-color: yellow;
 }
 
 .contact.selected {
-    background-color: #cacacb;
+    background-color: #020202;
 }
 
 .avatar {

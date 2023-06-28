@@ -12,6 +12,7 @@ import Contact from "./chat/Contact"
 import { allUsersRoute, host } from "./utils/APIRoutes";
 import ChatContain from "./chat/ChatContain";
 import { io } from "socket.io-client";
+import SearchInput from "./searchInput/Index";
 import {
   Avatar,
   Badge,
@@ -38,8 +39,9 @@ import { usePopover } from "./hooks/use-popover";
 import { AccountPopover } from "./layouts/dashboard/account-popover";
 import { Typography } from "antd";
 import { makeStyles } from "@mui/styles";
-
-
+import { backend } from "./utils/APIRoutes";
+import moment from "moment";
+const { Title } = Typography;
 const useStyles = makeStyles((theme) => ({
   drawer: {
     width: 300,
@@ -79,7 +81,7 @@ function Header({ onLoginRedirect, onNavOpen }) {
     try {
       const res = await axios({
         method: "get",
-        url: "/api/absence/count-unread",
+        url: `${process.env.REACT_APP_BACK_END}/api/absence/count-unread`,
         headers: {
           Authorization: localStorage.getItem("Token"),
         },
@@ -96,7 +98,7 @@ function Header({ onLoginRedirect, onNavOpen }) {
     try {
       const res = await axios({
         method: "put",
-        url: "/api/absence/unread",
+        url: `${process.env.REACT_APP_BACK_END}/api/absence/unread`,
         headers: {
           Authorization: localStorage.getItem("Token"),
         },
@@ -148,7 +150,7 @@ function Header({ onLoginRedirect, onNavOpen }) {
   const [ava, setAva] = useState(localStorage.getItem("Avata"));
 
   async function getNotif() {
-    const res = await axios.get("/api/absence/notif", {
+    const res = await axios.get(`${process.env.REACT_APP_BACK_END}/api/absence/notif`, {
       headers: {
         Authorization: localStorage.getItem("Token"),
       },
@@ -433,17 +435,18 @@ function Header({ onLoginRedirect, onNavOpen }) {
                 </SvgIcon>
               </IconButton>
             </Tooltip>
+            <SearchInput />
           </Stack>
           {/* <Typography>{notificationCount}</Typography> */}
           {localStorage.getItem("Token") ? (
             <Stack alignItems="center" direction="row" spacing={2}>
-              <Tooltip title="Contacts">
+              {/* <Tooltip title="Contacts">
                 <IconButton onClick={handleToggleDrawer(true)}>
                   <SvgIcon fontSize="small">
                     <UsersIcon />
                   </SvgIcon>
                 </IconButton>
-              </Tooltip>
+              </Tooltip> */}
               <Tooltip title="Messenger">
                 <IconButton onClick={handleMessClick}>
                   <SvgIcon fontSize="small">
@@ -505,10 +508,26 @@ function Header({ onLoginRedirect, onNavOpen }) {
                   horizontal: "center",
                 }}
               >
-                <Box p={2}>
+                <Box p={2} style={{ width: "200px",height:"50%"}}>
                   {notif.map((notification) => (
-                    <Typography key={notification.id}>
-                      {notification.status}
+                    <Typography
+                      key={notification.id}
+                      style={{
+                        display: "flex",
+                        padding: "3px",
+                        height: "60px",
+                        flexDirection: "column",
+                        flexWrap: "nowrap",
+                        justifyContent: "flex-end",
+                        alignItems: "stretch",
+                        boxShadow: "1px 2px 1px 1px gray",
+                        borderRadius:"8px"
+                      }}
+                    >
+                      <Title level={5}>{notification.lastName} </Title>
+                      <Typography>
+                        {moment(notification.startDate).format("YYYY-MM-DD")}
+                      </Typography>
                     </Typography>
                   ))}
                 </Box>

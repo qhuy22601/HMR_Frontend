@@ -14,7 +14,7 @@ import { Logo } from "../../components/logo";
 import { Scrollbar } from "../../components/scrollbar";
 import { items } from "./config";
 import { SideNavItem } from "./side-nav-item";
-
+import logo from "../../../hmrs.png"
 export const SideNav = (props) => {
   const { open, onClose } = props;
   const location = useLocation();
@@ -22,16 +22,15 @@ export const SideNav = (props) => {
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"));
 
   const content = (
-    
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          height: "100%",
-        }}
-      >
-        <Box sx={{ p: 3 }}>
-          {/* <Box
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+      }}
+    >
+      <Box sx={{ p: 3 }}>
+        {/* <Box
             component={Link}
             to="/"
             sx={{
@@ -42,65 +41,73 @@ export const SideNav = (props) => {
           >
             <Logo />
           </Box> */}
-          <Box
-            sx={{
-              alignItems: "center",
-              backgroundColor: "rgba(255, 255, 255, 0.04)",
-              borderRadius: 1,
-              cursor: "pointer",
-              display: "flex",
-              justifyContent: "space-between",
-              mt: 2,
-              p: "12px",
-            }}
-          >
-            <div>
-              <Typography color="inherit" variant="subtitle1">
-                HMRS
-              </Typography>
-            </div>
-            {/* <SvgIcon fontSize="small" sx={{ color: "neutral.500" }}>
-              <ChevronUpDownIcon />
-            </SvgIcon> */}
-          </Box>
-        </Box>
-        <Divider sx={{ borderColor: "neutral.700" }} />
         <Box
-          component="nav"
           sx={{
-            flexGrow: 1,
-            px: 2,
-            py: 3,
+            alignItems: "center",
+            backgroundColor: "rgba(255, 255, 255, 0.04)",
+            borderRadius: 1,
+            cursor: "pointer",
+            display: "flex",
+            justifyContent: "center",
+            mt: 2,
+            p: "12px",
           }}
         >
-          <Stack
-            component="ul"
-            spacing={0.5}
-            sx={{
-              listStyle: "none",
-              p: 0,
-              m: 0,
-            }}
-          >
-            {items.map((item) => {
-              const active = item.path ? pathname === item.path : false;
-
-              return (
-                <SideNavItem
-                  active={active}
-                  disabled={item.disabled}
-                  external={item.external}
-                  icon={item.icon}
-                  key={item.title}
-                  path={item.path}
-                  title={item.title}
-                />
-              );
-            })}
-          </Stack>
+          <div style={{ justifyContent: "center" }}>
+            {/* <Typography color="inherit" variant="subtitle1">
+                HMRS
+              </Typography> */}
+            <img
+              src={logo}
+              style={{
+                width: "100px",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            ></img>
+          </div>
+          {/* <SvgIcon fontSize="small" sx={{ color: "neutral.500" }}>
+              <ChevronUpDownIcon />
+            </SvgIcon> */}
         </Box>
-        <Divider sx={{ borderColor: "neutral.700" }} />
       </Box>
+      <Divider sx={{ borderColor: "neutral.700" }} />
+      <Box
+        component="nav"
+        sx={{
+          flexGrow: 1,
+          px: 2,
+          py: 3,
+        }}
+      >
+        <Stack
+          component="ul"
+          spacing={0.5}
+          sx={{
+            listStyle: "none",
+            p: 0,
+            m: 0,
+          }}
+        >
+          {items.map((item) => {
+            const active = item.path ? pathname === item.path : false;
+
+            return (
+              <SideNavItem
+                active={active}
+                disabled={item.disabled}
+                external={item.external}
+                icon={item.icon}
+                key={item.title}
+                path={item.path}
+                title={item.title}
+              />
+            );
+          })}
+        </Stack>
+      </Box>
+      <Divider sx={{ borderColor: "neutral.700" }} />
+    </Box>
   );
 
   if (lgUp) {

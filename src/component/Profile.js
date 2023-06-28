@@ -1,110 +1,108 @@
-import React, { useState, useEffect } from "react";
-import styles from "./styles/Profile.module.css";
-import imageCompression from "browser-image-compression";
-import { useParams } from "react-router-dom";
-import axios from "axios";
-import * as yup from "yup";
-import { Formik } from "formik";
-import Form from "react-bootstrap/Form";
-import Header from "./Header";
-import {
-  MenuItem,
-  TextField,
-  Typography,
-  Divider,
-  Grid,
-  Box,
-  Button,
-  Collapse,
-  Card,
-} from "@mui/material";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import InputAdornment from "@mui/material/InputAdornment";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import EditIcon from "@mui/icons-material/Edit";
-import LocalizationProvider from "@mui/lab/LocalizationProvider/";
-import DatePicker from "@mui/lab/DatePicker";
+// import React, { useState, useEffect, useCallback } from "react";
+// import styles from "./styles/Profile.module.css";
+// import imageCompression from "browser-image-compression";
+// import { useParams } from "react-router-dom";
+// import axios from "axios";
+// import * as yup from "yup";
+// import { Formik } from "formik";
+// import { useLocation } from "react-router-dom";
+// import styled from "styled-components";
+// import Form from "react-bootstrap/Form";
+// import Header from "./Header";
+// import { SideNav } from "../component/layouts/dashboard/side-nav";
+// import {
+//   MenuItem,
+//   TextField,
+//   Typography,
+//   Divider,
+//   Grid,
+//   Box,
+//   Button,
+//   Collapse,
+//   Card,
+// } from "@mui/material";
+// import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+// import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+// import InputAdornment from "@mui/material/InputAdornment";
+// import AdapterDateFns from "@mui/lab/AdapterDateFns";
+// import EditIcon from "@mui/icons-material/Edit";
+// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+// import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+// import { ThemeProvider } from "@mui/material/styles";
+// import { createTheme } from "./theme";
+// const SIDE_NAV_WIDTH = 280;
+
+
+// const LayoutRoot = styled.div`
+//   display: flex;
+//   flex: 1 1 auto;
+//   margin-left: auto;
+//   margin-right: 0;
+//   max-width: 100%;
+//   ${({ theme }) => `
+//     @media (min-width: ${theme.breakpoints}px) {
+//       padding-left: ${SIDE_NAV_WIDTH}px;
+//     }
+//   `}
+// `;
+
+// const LayoutContainer = styled.div`
+//   display: flex;
+//   flex: 1 1 auto;
+//   flex-direction: column;
+//   width: 100%;
+// `;
+
 
 // const Profile = () => {
-//   const { id } = useParams();
-
-//   const [openPersonal, setOpenPersonal] = useState(true);
-//   const [personalDisabled, setPersonalDisabled] = useState(true);
+//   const [profileData, setProfileData] = useState({
+//     id: "",
+//     firstName: "",
+//     lastName: "",
+//     phoneNumber: "",
+//     address: "",
+//     image: "",
+//     gender: "",
+//     birthDate:""
+//   });
 //   const [image, setImage] = useState("");
 //   const [file, setFile] = useState(null);
 //   const [file64String, setFile64String] = useState(null);
 //   const [file64StringWithType, setFile64StringWithType] = useState(null);
 //   const [ava, setAva] = useState(localStorage.getItem("Avata"));
-
-//   const schema = yup.object().shape({
-//     email: yup.string().email().required(),
-//     lastName: yup.string(),
-//     firstName: yup.string(),
-//     address: yup.string(),
-//     gender: yup.string(),
-//     phoneNumber: yup.string(),
-//   });
-
-//   const [data, setData] = useState([]);
-//       const EditButtonStyles = {
-//         mt: 2,
-//         bgcolor: "grey.200",
-//         border: "2px solid",
-//         boxShadow: "none",
-//         // color: postalDisabled || personalDisabled ? "#abb2b9" : "black",
-//         color: "#abb2b9",
-//         "&:hover": {
-//           backgroundColor: "#e6ebf0",
-//           color: "#4782da",
-//         },
-//       };
-
-//       const DisabledTextBox = {
-//         "& .Mui-disabled": {
-//           opacity: 0.8,
-//           "-webkit-text-fill-color": "black",
-//         },
-//       };
-
-//   const handleOpenPersonal = () => {
-//     setOpenPersonal((prev) => !prev);
+//   const [isEditing, setIsEditing] = useState(false);
+//   const [openPersonal, setOpenPersonal] = useState(true);
+//   const [personalDisabled, setPersonalDisabled] = useState(true);
+//   const { id } = useParams();
+//   const handleLoginRedirect = () => {
+//     window.location.href = "#/login";
 //   };
 
-//   // const handleInputChange = (e) => {
-//   //   const name = e.target.name;
-//   //   const value = e.target.value;
+//   const location = useLocation();
+//   const [openNav, setOpenNav] = useState(false);
 
-//   //   setInfo((prevInfo) => ({
-//   //     ...prevInfo,
-//   //     [name]: value,
-//   //   }));
-//   // };
+//   const handlePathnameChange = useCallback(() => {
+//     if (openNav) {
+//       setOpenNav(false);
+//     }
+//   }, [openNav]);
 
 //   useEffect(() => {
-//     async function prof() {
-//       const res = await axios.get("/api/auth/user/" + id);
-//       setData(res.data);
-//     }
-//     prof();
-//   }, []);
+//     handlePathnameChange();
+//   }, [location.pathname, handlePathnameChange]);
 
-//   async function save(inputData) {
-//     try {
-//       const response = await axios.post("/api/auth/user/change", {
-//         id: data.id,
-//         firstName: inputData.firstName,
-//         lastName: inputData.lastName,
-//         avata: file64StringWithType,
-//         phoneNumber: inputData.phoneNumber,
-//         address: inputData.address,
-//         gender: inputData.gender,
-//       });
-//     } catch (error) {
-//       console.log(error);
+//   useEffect(() => {
+//     async function fetchProfileData() {
+//       const res = await axios.get("http://171.238.155.142:8080/api/auth/user/" + id);
+//       setProfileData(res.data);
 //     }
-//   }
+//     fetchProfileData();
+//   }, [id]);
 
+//   const handleEditClick = () => {
+//     setIsEditing(true);
+//   };
 //   function onUploadFileChange(e) {
 //     setFile64String(null);
 //     if (e.target.files < 1 || !e.target.validity.valid) {
@@ -153,259 +151,375 @@ import DatePicker from "@mui/lab/DatePicker";
 //     }
 //   }
 
+//   const handleSaveClick = async () => {
+//     try {
+//       await axios.post("http://171.238.155.142:8080/api/auth/change", {
+//         id: profileData.id,
+//         firstName: profileData.firstName,
+//         lastName: profileData.lastName,
+//         phoneNumber: profileData.phoneNumber,
+//         birthDate: profileData.birthDate,
+//         gender: profileData.gender,
+//         address: profileData.address,
+//         image: file64StringWithType,
+//       });
+//       setIsEditing(false);
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   };
+
+//   const handleOpenPersonal = () => {
+//     setOpenPersonal((prev) => !prev);
+//   };
+// const handleInputChange = (e) => {
+//   const { name, value } = e.target;
+//   if (name === "birthDate") {
+//     // Extract the value from the date object
+//     const dateValue = value ? value.toISOString() : null;
+//     setProfileData((prevData) => ({
+//       ...prevData,
+//       [name]: dateValue,
+//     }));
+//   } else if (name === "gender" && value === "") {
+//     setProfileData((prevData) => ({
+//       ...prevData,
+//       [name]: "",
+//     }));
+//   } else {
+//     setProfileData((prevData) => ({
+//       ...prevData,
+//       [name]: value,
+//     }));
+//   }
+// };
+  
+
 //   return (
-//     <div className={styles.container}>
-//       <Header />
-//       <Formik
-//         validationSchema={schema}
-//         initialValues={{
-//           email: data.email,
-//           firstName: data.firstName,
-//           lastName: data.lastName,
-//           address: data.address,
-//           phoneNumber: data.phoneNumber,
-//           gender: data.gender,
-//         }}
-//         onSubmit={(values, { setSubmitting }) => {
-//           save(values);
-//           setSubmitting(false);
-//         }}
-//       >
-//         {({
-//           handleSubmit,
-//           handleChange,
-//           handleBlur,
-//           values,
-//           touched,
-//           isInValid,
-//           errors,
-//         }) => (
-//           <Form
-//             noValidate
-//             onSubmit={handleSubmit}
-//             className={styles.profile_container}
-//           >
-//             <Card style={{ width: "80%" }}>
-//               <Box sx={{ p: 0, pb: 1 }} dir="ltr">
-//                 <Grid
-//                   container
-//                   columnSpacing={2}
-//                   rowSpacing={2}
-//                   direction="row"
-//                   justifyContent="flex-end"
-//                   alignItems="flex-end"
-//                 ></Grid>
-//                 <Grid container direction="rows" justifyContent="space-between">
-//                   <Grid item>
-//                     <Button
-//                       sx={{ mt: 2 }}
-//                       variant="standard"
-//                       endIcon={
-//                         openPersonal ? (
-//                           <KeyboardArrowUpIcon />
-//                         ) : (
-//                           <KeyboardArrowDownIcon />
-//                         )
-//                       }
-//                       onClick={handleOpenPersonal}
-//                     >
-//                       <Typography variant="overline">Personal</Typography>
-//                     </Button>
-//                   </Grid>
-//                   <Grid item>
-//                     {openPersonal && (
-//                       <>
-//                         <Button
-//                           sx={EditButtonStyles}
-//                           variant="contained"
-//                           color="primary"
-//                           endIcon={<EditIcon />}
-//                           onClick={() => setPersonalDisabled((prev) => !prev)}
-//                         >
-//                           Edit
-//                         </Button>
-//                         {!personalDisabled && (
+//     <div>
+//       <ThemeProvider theme={createTheme()}>
+//         <>
+//           {/* <TopNav onNavOpen={() => setOpenNav(true)} onLoginRedirect={handleLoginRedirect} /> */}
+//           <Header onLoginRedirect={handleLoginRedirect}></Header>
+//           <SideNav onClose={() => setOpenNav(false)} open={openNav} />
+//           <LayoutRoot>
+//             <LayoutContainer>
+//               <Card
+//                 style={{ marginLeft: "auto", marginRight: 0, width: "80%" }}
+//               >
+//                 <Box sx={{ p: 0, pb: 1 }} dir="ltr">
+//                   <Grid
+//                     container
+//                     columnSpacing={2}
+//                     rowSpacing={2}
+//                     direction="row"
+//                     justifyContent="flex-end"
+//                     alignItems="flex-end"
+//                   ></Grid>
+//                   <Grid
+//                     container
+//                     direction="rows"
+//                     justifyContent="space-between"
+//                   >
+//                     <Grid item>
+//                       <Button
+//                         sx={{ mt: 2 }}
+//                         variant="standard"
+//                         endIcon={
+//                           openPersonal ? (
+//                             <KeyboardArrowUpIcon />
+//                           ) : (
+//                             <KeyboardArrowDownIcon />
+//                           )
+//                         }
+//                         onClick={handleOpenPersonal}
+//                       >
+//                         <Typography variant="overline">Personal</Typography>
+//                       </Button>
+//                     </Grid>
+//                     <Grid item>
+//                       {openPersonal && (
+//                         <>
 //                           <Button
-//                             sx={{ mt: 2, ml: 2 }}
 //                             variant="contained"
+//                             sx={{ mt: 2, ml: 2 }}
 //                             color="primary"
-//                             type="submit"
+//                             endIcon={<EditIcon />}
+//                             onClick={() => setPersonalDisabled((prev) => !prev)}
 //                           >
-//                             Save
+//                             Edit
 //                           </Button>
-//                         )}
-//                       </>
-//                     )}
+//                           {!personalDisabled && (
+//                             <Button
+//                               sx={{ mt: 2, ml: 2 }}
+//                               variant="contained"
+//                               color="primary"
+//                               onClick={handleSaveClick}
+//                             >
+//                               Save
+//                             </Button>
+//                           )}
+//                         </>
+//                       )}
+//                     </Grid>
 //                   </Grid>
-//                 </Grid>
-//                 <Collapse
-//                   in={openPersonal}
-//                   timeout="auto"
-//                   unmountOnExit
-//                   style={{ display: "flex" }}
-//                 >
-//                   <div className={styles.profile_image}>
-//                     {image || data.image ? (
-//                       <img
-//                         src={image || data.image}
-//                         alt="Profile"
-//                         value={data.image}
+//                   <Collapse
+//                     in={openPersonal}
+//                     timeout="auto"
+//                     unmountOnExit
+//                     style={{ display: "flex" }}
+//                   >
+//                     <div className={styles.profile_image}>
+//                       {image || profileData.image ? (
+//                         <img
+//                           src={image || profileData.image}
+//                           alt="Profile"
+//                           value={profileData.image}
+//                         />
+//                       ) : (
+//                         <div className={styles.no_image}>No image selected</div>
+//                       )}
+//                       <input
+//                         className="inside"
+//                         type="file"
+//                         accept=".jpg, .jpeg, .png"
+//                         onChange={onUploadFileChange}
 //                       />
-//                     ) : (
-//                       <div className={styles.no_image}>No image selected</div>
-//                     )}
-//                     <input
-//                       className="inside"
-//                       type="file"
-//                       accept=".jpg, .jpeg, .png"
-//                       onChange={onUploadFileChange}
-//                     />
-//                   </div>
-//                   <div>
-//                     <Grid
-//                       sx={{ p: 1, pb: 5, pt: 5 }}
-//                       container
-//                       columnSpacing={2}
-//                       rowSpacing={2}
-//                       direction="row"
-//                       justifyContent="flex-start"
-//                       alignItems="flex-start"
-//                     >
-//                       <Grid item xs={8} xl={4}>
-//                         <Form.Control
-//                           type="text"
-//                           name="email"
-//                           value={values.email}
-//                           onChange={handleChange}
-//                         />
-//                       </Grid>
-//                       <Grid item xs={8} xl={4}>
-//                         <Form.Control
-//                           type="text"
-//                           name="firstName"
-//                           value={values.firstName}
-//                           onChange={handleChange}
-//                         />
-//                       </Grid>
-//                       <Grid item xs={12} xl={4}>
-//                         <Form.Control
-//                           type="text"
-//                           name="lastName"
-//                           value={values.lastName}
-//                           onChange={handleChange}
-//                         />
-//                       </Grid>
-//                       <Grid item xs={12} xl={4}>
-//                         <Form.Control
-//                           type="text"
-//                           name="address"
-//                           value={values.address}
-//                           onChange={handleChange}
-//                         />
-//                       </Grid>
-//                       <Grid item xs={8} xl={4}>
-//                         <Form.Control
-//                           type="text"
-//                           name="phoneNumber"
-//                           value={values.phoneNumber}
-//                           onChange={handleChange}
-//                         />
-//                       </Grid>
-//                       {/* <Grid item xs={7} xl={3}>
-//                         <TextField
-//                           disabled={personalDisabled}
-//                           style={{ width: "100%" }}
-//                           variant="standard"
-//                           value={values.gender}
-//                           onChange={handleChange}
-//                           select
-//                           name="Gender"
-//                           label="Gender"
-//                           size="small"
-//                           sx={DisabledTextBox}
-//                         >
-//                           <MenuItem key={"Male"} value="Male">
-//                             Male
-//                           </MenuItem>
-//                           <MenuItem key={"Female"} value="Female">
-//                             Female
-//                           </MenuItem>
-//                         </TextField>
-//                       </Grid>
-//                       <Grid item xs={8} xl={4}>
-//                         <LocalizationProvider dateAdapter={AdapterDateFns}>
-//                           <DatePicker
-//                             sx={DisabledTextBox}
+//                     </div>
+//                     <div>
+//                       <Grid
+//                         sx={{ p: 1, pb: 5, pt: 5 }}
+//                         container
+//                         columnSpacing={2}
+//                         rowSpacing={2}
+//                         direction="row"
+//                         justifyContent="flex-start"
+//                         alignItems="flex-start"
+//                       >
+//                         <Grid item xs={12} xl={4}>
+//                           <TextField
 //                             disabled={personalDisabled}
 //                             variant="standard"
+//                             style={{ width: "100%" }}
 //                             size="small"
-//                             label="Date of Birth"
-//                             name="birthDate"
-//                             renderInput={(params) => (
-//                               <TextField
-//                                 {...params}
-//                                 variant="standard"
-//                                 sx={DisabledTextBox}
-//                               />
-//                             )}
+//                             name="email"
+//                             // label="Email"
+//                             value={profileData.email}
+//                             onChange={handleInputChange}
 //                           />
-//                         </LocalizationProvider>
-//                       </Grid> */}
-//                     </Grid>
-//                   </div>
-//                 </Collapse>
-//               </Box>
-//             </Card>
-//           </Form>
-//         )}
-//       </Formik>
+//                         </Grid>
+//                         <Grid item xs={8} xl={4}>
+//                           <TextField
+//                             disabled={personalDisabled}
+//                             variant="standard"
+//                             style={{ width: "100%" }}
+//                             size="small"
+//                             label="First Name"
+//                             name="firstName"
+//                             value={profileData.firstName}
+//                             onChange={handleInputChange}
+//                           />
+//                         </Grid>
+//                         <Grid item xs={12} xl={4}>
+//                           <TextField
+//                             disabled={personalDisabled}
+//                             variant="standard"
+//                             style={{ width: "100%" }}
+//                             size="small"
+//                             name="lastName"
+//                             label="Last Name"
+//                             value={profileData.lastName}
+//                             onChange={handleInputChange}
+//                           />
+//                         </Grid>
+//                         <Grid item xs={12} xl={4}>
+//                           <TextField
+//                             disabled={personalDisabled}
+//                             variant="standard"
+//                             style={{ width: "100%" }}
+//                             size="small"
+//                             name="address"
+//                             label="Address"
+//                             value={profileData.address}
+//                             onChange={handleInputChange}
+//                           />
+//                         </Grid>
+//                         <Grid item xs={8} xl={4}>
+//                           <TextField
+//                             disabled={personalDisabled}
+//                             variant="standard"
+//                             style={{ width: "100%" }}
+//                             size="small"
+//                             name="phoneNumber"
+//                             label="Phone Number"
+//                             value={profileData.phoneNumber}
+//                             onChange={handleInputChange}
+//                           />
+//                         </Grid>
+//                         <Grid item xs={8} xl={4}>
+//                           <TextField
+//                             disabled={personalDisabled}
+//                             style={{ width: "100%" }}
+//                             variant="standard"
+//                             value={profileData.gender}
+//                             onChange={handleInputChange}
+//                             select
+//                             name="gender" // Update name attribute to "gender"
+//                             label="Gender"
+//                             size="small"
+//                           >
+//                             <MenuItem key="male" value="Male">
+//                               Male
+//                             </MenuItem>
+//                             <MenuItem key="female" value="Female">
+//                               Female
+//                             </MenuItem>
+//                           </TextField>
+//                         </Grid>
+
+//                         <Grid item xs={8} xl={4}>
+//                           <LocalizationProvider dateAdapter={AdapterDayjs}>
+//                             <DatePicker
+//                               disabled={personalDisabled}
+//                               variant="standard"
+//                               inputFormat="dd/MM/yyyy"
+//                               size="small"
+//                               label="Date of Birth"
+//                               name="birthDate" // Update name attribute to "birthDate"
+//                               value={profileData.birthDate}
+//                               renderInput={(params) => (
+//                                 <TextField {...params} variant="standard" />
+//                               )}
+//                               onChange={(date) =>
+//                                 handleInputChange({
+//                                   target: { name: "birthDate", value: date },
+//                                 })
+//                               }
+//                             />
+//                           </LocalizationProvider>
+//                         </Grid>
+//                       </Grid>
+//                     </div>
+//                   </Collapse>
+//                 </Box>
+//               </Card>
+//             </LayoutContainer>
+//           </LayoutRoot>
+//         </>
+//       </ThemeProvider>
 //     </div>
 //   );
 // };
 
 // export default Profile;
 
-// import React, { useState } from "react";
-// import { Card, Box, Grid, Button, Typography, TextField } from "@mui/material";
-// import EditIcon from "@mui/icons-material/Edit";
-// import { useParams } from "react-router-dom";
-// import Header from "./Header";
 
-// import React, { useState, useEffect } from "react";
-// import axios from "axios";
-// import { Typography, TextField, Button } from "@mui/material";
 
-const Profile = () => {
-  const [profileData, setProfileData] = useState({
-    id: "",
-    firstName: "",
-    lastName: "",
-    phoneNumber: "",
-    address: "",
-    image: "",
-    gender: "",
-  });
+
+
+
+
+import { Button, Modal, Form, Input, DatePicker, Select, message } from "antd";
+import { useState, useEffect, useRef } from "react";
+import imageCompression from "browser-image-compression";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { useLocation } from "react-router-dom";
+import styles from "./styles/Profile.module.css";
+import { useCallback } from "react";
+import moment from 'moment'
+import { ThemeProvider } from "@mui/material/styles";
+import { createTheme } from "./theme";
+import styled from "styled-components";
+import Header from "./Header";
+import { SideNav } from "../component/layouts/dashboard/side-nav";
+import { backend } from "./utils/APIRoutes";
+
+const SIDE_NAV_WIDTH = 280;
+
+
+const LayoutRoot = styled.div`
+  display: flex;
+  flex: 1 1 auto;
+  margin-left: 300px;
+  
+  max-width: 80%;
+  ${({ theme }) => `
+    @media (min-width: ${theme.breakpoints}px) {
+      padding-left: ${SIDE_NAV_WIDTH}px;
+    }
+  `}
+`;
+
+const LayoutContainer = styled.div`
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  width: 100%;
+`;
+
+
+
+
+const { Option } = Select;
+export const Role = {
+  ADMIN: "ADMIN",
+  USER: "USER",
+};
+
+export const PayGrade = {
+  INTERNSHIP: "INTERNSHIP",
+  FRESHER: "FRESHER",
+  JUNIOR: "JUNIOR",
+  SENIOR: "SENIOR",
+  VICEDIRECTOR: "VICEDIRECTOR",
+  DIRECTOR: "DIRECTOR",
+};
+function Profile(){
   const [image, setImage] = useState("");
   const [file, setFile] = useState(null);
   const [file64String, setFile64String] = useState(null);
   const [file64StringWithType, setFile64StringWithType] = useState(null);
   const [ava, setAva] = useState(localStorage.getItem("Avata"));
-  const [isEditing, setIsEditing] = useState(false);
-  const [openPersonal, setOpenPersonal] = useState(true);
-  const [personalDisabled, setPersonalDisabled] = useState(true);
   const { id } = useParams();
+  const [form] = Form.useForm();
+    const handleLoginRedirect = () => {
+      window.location.href = "#/login";
+    };
 
-  useEffect(() => {
-    async function fetchProfileData() {
-      const res = await axios.get("/api/auth/user/" + id);
-      setProfileData(res.data);
-    }
-    fetchProfileData();
-  }, [id]);
+    const location = useLocation();
+    const [openNav, setOpenNav] = useState(false);
 
-  const handleEditClick = () => {
-    setIsEditing(true);
-  };
+    const handlePathnameChange = useCallback(() => {
+      if (openNav) {
+        setOpenNav(false);
+      }
+    }, [openNav]);
+
+    useEffect(() => {
+      handlePathnameChange();
+    }, [location.pathname, handlePathnameChange]);
+    const[userData , setUserData] = useState({})
+    useEffect(() => {
+      async function fetchProfileData() {
+        const res = await axios.get(`${process.env.REACT_APP_BACK_END}/api/auth/user/` + id);
+        const userData = res.data;
+        setUserData(userData);
+        // setMst(userData.mst)
+        form.setFieldsValue({
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          birthDate: moment(userData.birthDate, "YYYY-MM-DD"),
+          email: userData.email,
+          address: userData.address,
+          phoneNumber: userData.phoneNumber,
+          gender: userData.gender,
+          // image: userData.image
+        });
+      }
+      fetchProfileData();
+    }, [id,form]);
+
   function onUploadFileChange(e) {
     setFile64String(null);
     if (e.target.files < 1 || !e.target.validity.valid) {
@@ -454,256 +568,238 @@ const Profile = () => {
     }
   }
 
-  const handleSaveClick = async () => {
+  // const handleSave = async () => {
+  //   try {
+  //     await form.validateFields();
+  //     const formData = {
+  //       id: id,
+  //       image: file64StringWithType,
+  //       ...form.getFieldsValue(),
+  //     };
+  //     await axios.post(`${process.env.REACT_APP_BACK_END}/api/auth/change`, formData);
+      
+  //     // localStorage.setItem("Email", form.getFieldValue("email"));
+  //     // localStorage.setItem("FirstName", form.getFieldValue("firstName"));
+  //     // localStorage.setItem("LastName", form.getFieldValue("astName"));
+  //     // localStorage.setItem("Gender", form.getFieldValue("gender"));
+  //     // localStorage.setItem("Address", form.getFieldValue("address"));
+  //     // localStorage.setItem("PhoneNumber", form.getFieldValue("phoneNumber"));
+  //     // localStorage.setItem("isAvatarImageSet", true);
+  //     // localStorage.setItem("UserAvata", form.getFieldValue("image"));
+
+  //     // if (form.getFieldValue("image") != null) {
+  //     //   localStorage.setItem("Avata", form.getFieldValue("image"));
+  //     // } else {
+  //     //   localStorage.setItem("Avata", "");
+  //     // }
+      
+  //     // localStorage.setItem("chat-app-current-user", JSON.stringify(formData));
+
+  //     message.success("OKKK");
+  //   } catch (error) {
+  //     message.error("KO OKKK");
+  //     console.log(error)
+  //   }
+  // };
+
+  const handleSave = async () => {
     try {
-      await axios.post("/api/auth/change", {
-        id: profileData.id,
-        firstName: profileData.firstName,
-        lastName: profileData.lastName,
-        phoneNumber: profileData.phoneNumber,
-        address: profileData.address,
+      await form.validateFields();
+      const formValues = form.getFieldsValue();
+      const updatedFormData = {
+        id: id,
         image: file64StringWithType,
-      });
-      setIsEditing(false);
+        ...formValues,
+        birthDate: formValues.birthDate.format("YYYY-MM-DD"),
+      };
+
+      await axios.post(
+        `${process.env.REACT_APP_BACK_END}/api/auth/change`,
+        updatedFormData
+      );
+
+      message.success("OKKK");
     } catch (error) {
-      console.error(error);
+      message.error("KO OKKK");
     }
   };
 
-  const handleOpenPersonal = () => {
-    setOpenPersonal((prev) => !prev);
-  };
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setProfileData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
 
   return (
-    <div>
-      <Header></Header>
-      {/* <Typography>{profileData.firstName}</Typography>
-      <Typography>{profileData.lastName}</Typography>
-      <Typography>{profileData.phoneNumber}</Typography>
-      <Typography>{profileData.id}</Typography>
-
-      <Button onClick={handleEditClick}>Edit</Button>
-      {isEditing && (
-        <div>
-          <TextField
-            name="firstName"
-            value={profileData.firstName}
-            onChange={handleInputChange}
-          />
-          <TextField
-            name="lastName"
-            value={profileData.lastName}
-            onChange={handleInputChange}
-          />
-          <TextField
-            name="phoneNumber"
-            value={profileData.phoneNumber}
-            onChange={handleInputChange}
-          />
-          <Button onClick={handleSaveClick}>Save</Button>
-        </div>
-      )} */}
-     <Card style={{ width: "80%" , marginTop:"70px"}}>
-               <Box sx={{ p: 0, pb: 1 }} dir="ltr">
-                 <Grid
-                  container
-                  columnSpacing={2}
-                  rowSpacing={2}
-                  direction="row"
-                  justifyContent="flex-end"
-                  alignItems="flex-end"
-                ></Grid>
-                <Grid container direction="rows" justifyContent="space-between">
-            <Grid item>
-              <Button
-                sx={{ mt: 2 }}
-                variant="standard"
-                endIcon={
-                  openPersonal ? (
-                    <KeyboardArrowUpIcon />
-                  ) : (
-                    <KeyboardArrowDownIcon />
-                  )
-                }
-                onClick={handleOpenPersonal}
-              >
-                <Typography variant="overline">Personal</Typography>
-              </Button>
-            </Grid>
-            <Grid item>
-              {openPersonal && (
-                <>
-                  <Button
-                    variant="contained"
-                    sx={{ mt: 2, ml: 2 }}
-                    color="primary"
-                    endIcon={<EditIcon />}
-                    onClick={() => setPersonalDisabled((prev) => !prev)}
-                  >
-                    Edit
-                  </Button>
-                  {!personalDisabled && (
-                    <Button
-                      sx={{ mt: 2, ml: 2 }}
-                      variant="contained"
-                      color="primary"
-                      onClick={handleSaveClick}
-                    >
-                      Save
-                    </Button>
-                  )}
-                </>
-              )}
-            </Grid>
-          </Grid>
-          <Collapse
-            in={openPersonal}
-            timeout="auto"
-            unmountOnExit
-            style={{ display: "flex" }}
-          >
-            <div className={styles.profile_image}>
-              {image || profileData.image ? (
-                <img
-                  src={image || profileData.image}
-                  alt="Profile"
-                  value={profileData.image}
-                />
-              ) : (
-                <div className={styles.no_image}>No image selected</div>
-              )}
-              <input
-                className="inside"
-                type="file"
-                accept=".jpg, .jpeg, .png"
-                onChange={onUploadFileChange}
-              />
-            </div>
-            <div>
-              <Grid
-                sx={{ p: 1, pb: 5, pt: 5 }}
-                container
-                columnSpacing={2}
-                rowSpacing={2}
-                direction="row"
-                justifyContent="flex-start"
-                alignItems="flex-start"
-              >
-                <Grid item xs={12} xl={4}>
-                  <TextField
-                    disabled={personalDisabled}
-                    variant="standard"
-                    style={{ width: "100%" }}
-                    size="small"
-                    name="email"
-                    label="Email"
-                    value={profileData.email}
-                    onChange={handleInputChange}
-                  />
-                </Grid>
-                <Grid item xs={8} xl={4}>
-                  <TextField
-                    disabled={personalDisabled}
-                    variant="standard"
-                    style={{ width: "100%" }}
-                    size="small"
-                    label="First Name"
+    <>
+      <ThemeProvider theme={createTheme()}>
+        <>
+          {/* <TopNav onNavOpen={() => setOpenNav(true)} onLoginRedirect={handleLoginRedirect} /> */}
+          <Header onLoginRedirect={handleLoginRedirect}></Header>
+          <SideNav onClose={() => setOpenNav(false)} open={openNav} />
+          <LayoutRoot>
+            <LayoutContainer>
+              <Form form={form} autoComplete="off" style={{ marginLeft: 0 }}>
+                <div>
+                  <Form.Item
+                    label="Tên"
                     name="firstName"
-                    value={profileData.firstName}
-                    onChange={handleInputChange}
-                  />
-                </Grid>
-                <Grid item xs={12} xl={4}>
-                  <TextField
-                    disabled={personalDisabled}
-                    variant="standard"
-                    style={{ width: "100%" }}
-                    size="small"
+                    rules={[
+                      {
+                        required: true,
+                      },
+                    ]}
+                    style={{ marginLeft: "20px", textAlign: "center" }}
+                    labelCol={{ span: 6 }}
+                    labelAlign="left"
+                    wrapperCol={{ span: 18 }}
+                  >
+                    <Input style={{ width: "300px", textAlign: "center" }} />
+                  </Form.Item>
+                  <Form.Item
+                    label="Họ"
                     name="lastName"
-                    label="Last Name"
-                    value={profileData.lastName}
-                    onChange={handleInputChange}
-                  />
-                </Grid>
-                <Grid item xs={12} xl={4}>
-                  <TextField
-                    disabled={personalDisabled}
-                    variant="standard"
-                    style={{ width: "100%" }}
-                    size="small"
+                    rules={[
+                      {
+                        required: true,
+                      },
+                    ]}
+                    style={{ marginLeft: "20px", textAlign: "center" }}
+                    labelCol={{ span: 6 }}
+                    labelAlign="left"
+                    wrapperCol={{ span: 18 }}
+                  >
+                    <Input style={{ width: "300px", textAlign: "center" }} />
+                  </Form.Item>
+                  <Form.Item
+                    label="Email"
+                    name="email"
+                    rules={[
+                      {
+                        required: true,
+                      },
+                    ]}
+                    style={{ marginLeft: "20px", textAlign: "center" }}
+                    labelCol={{ span: 6 }}
+                    labelAlign="left"
+                    wrapperCol={{ span: 18 }}
+                  >
+                    <Input style={{ width: "300px", textAlign: "center" }} />
+                  </Form.Item>
+                  <Form.Item
+                    label="Địa chỉ"
                     name="address"
-                    label="Address"
-                    value={profileData.address}
-                    onChange={handleInputChange}
-                  />
-                </Grid>
-                <Grid item xs={8} xl={4}>
-                  <TextField
-                    disabled={personalDisabled}
-                    variant="standard"
-                    style={{ width: "100%" }}
-                    size="small"
+                    rules={[
+                      {
+                        required: true,
+                      },
+                    ]}
+                    style={{ marginLeft: "20px", textAlign: "center" }}
+                    labelCol={{ span: 6 }}
+                    labelAlign="left"
+                    wrapperCol={{ span: 18 }}
+                  >
+                    <Input style={{ width: "300px", textAlign: "center" }} />
+                  </Form.Item>
+                  <Form.Item
+                    label="SĐT"
                     name="phoneNumber"
-                    label="Phone Number"
-                    value={profileData.phoneNumber}
-                    onChange={handleInputChange}
-                  />
-                </Grid>
-                {/* <Grid item xs={7} xl={3}>
-                        <TextField
-                          disabled={personalDisabled}
-                          style={{ width: "100%" }}
-                          variant="standard"
-                          value={values.gender}
-                          onChange={handleChange}
-                          select
-                          name="Gender"
-                          label="Gender"
-                          size="small"
-                          sx={DisabledTextBox}
-                        >
-                          <MenuItem key={"Male"} value="Male">
-                            Male
-                          </MenuItem>
-                          <MenuItem key={"Female"} value="Female">
-                            Female
-                          </MenuItem>
-                        </TextField>
-                      </Grid>
-                      <Grid item xs={8} xl={4}>
-                        <LocalizationProvider dateAdapter={AdapterDateFns}>
-                          <DatePicker
-                            sx={DisabledTextBox}
-                            disabled={personalDisabled}
-                            variant="standard"
-                            size="small"
-                            label="Date of Birth"
-                            name="birthDate"
-                            renderInput={(params) => (
-                              <TextField
-                                {...params}
-                                variant="standard"
-                                sx={DisabledTextBox}
-                              />
-                            )}
-                          />
-                        </LocalizationProvider>
-                      </Grid> */}
-              </Grid>
-            </div>
-          </Collapse>
-        </Box>
-      </Card>
-    </div>
+                    rules={[
+                      {
+                        required: true,
+                      },
+                    ]}
+                    style={{ marginLeft: "20px", textAlign: "center" }}
+                    labelCol={{ span: 6 }}
+                    labelAlign="left"
+                    wrapperCol={{ span: 18 }}
+                  >
+                    <Input style={{ width: "300px", textAlign: "center" }} />
+                  </Form.Item>
+                  <Form.Item
+                    label="Ngày sinh"
+                    name="birthDate"
+                    rules={[
+                      {
+                        required: true,
+                      },
+                    ]}
+                    style={{ marginLeft: "20px", textAlign: "center" }}
+                    labelCol={{ span: 6 }}
+                    labelAlign="left"
+                    wrapperCol={{ span: 18 }}
+                  >
+                    <DatePicker
+                      style={{ width: "300px", textAlign: "center" }}
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    label="Giới tính"
+                    name="gender"
+                    rules={[
+                      {
+                        required: true,
+                      },
+                    ]}
+                    style={{ marginLeft: "20px", textAlign: "center" }}
+                    labelCol={{ span: 6 }}
+                    labelAlign="left"
+                    wrapperCol={{ span: 18 }}
+                  >
+                    <Select style={{ width: "300px", textAlign: "center" }}>
+                      <Option value="Male">Male</Option>
+                      <Option value="Female">Female</Option>
+                    </Select>
+                  </Form.Item>
+
+                  {/* <Form.Item
+            label="Image"
+            name="image"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input
+              type="file"
+              accept=".jpg, .jpeg, .png"
+              onChange={onUploadFileChange}
+            />
+          </Form.Item> */}
+                  <div className={styles.profile_image}>
+                    {image || userData.image ? (
+                      <img
+                        src={image || userData.image}
+                        alt="Profile"
+                        value={userData.image}
+                      />
+                    ) : (
+                      <div className={styles.no_image}>No image selected</div>
+                    )}
+                    <input
+                      className="inside"
+                      type="file"
+                      accept=".jpg, .jpeg, .png"
+                      onChange={onUploadFileChange}
+                    />
+                  </div>
+                </div>
+
+                <Button
+                  style={{
+                    backgroundColor: "green",
+                    color: "white",
+                    marginTop: "20px",
+                    marginLeft: "auto",
+                    marginRight: 0,
+                  }}
+                  type="primary"
+                  onClick={handleSave}
+                >
+                  Lưu
+                </Button>
+              </Form>
+            </LayoutContainer>
+          </LayoutRoot>
+        </>
+      </ThemeProvider>
+    </>
   );
-};
-
+}
 export default Profile;
-

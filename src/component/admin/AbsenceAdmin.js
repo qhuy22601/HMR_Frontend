@@ -13,6 +13,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import { createTheme } from "../theme";
 import { SideNav } from "../layouts/dashboard/side-nav";
 import moment from "moment";
+import { backend } from "../utils/APIRoutes";
 
 const SIDE_NAV_WIDTH = 280;
 
@@ -47,7 +48,7 @@ function AbsenceAdmin(){
       //   render: (text) => <a>{text}</a>,
       // },
       {
-        title: "Image",
+        title: "Ảnh",
         dataIndex: "image",
         key: "image",
         size: "small",
@@ -65,52 +66,56 @@ function AbsenceAdmin(){
         ),
       },
       {
-        title: "Name",
+        title: "Tên",
         dataIndex: "userName",
         key: "userName",
-        render: (text) => <a>{text}</a>,
+        render: (userName, record) => <a>{`${record.lastName}`}</a>,
       },
-      // {
-      //   title: "Email",
-      //   dataIndex: "email",
-      //   key: "email",
-      //   render: (text) => <a>{text}</a>,
-      // },
       {
-        title: "Start Date",
+        title: "Ngày bắt đầu",
         dataIndex: "startDate",
         key: "startDate",
-        render: (startDate) => moment(startDate).format("YYYY-MM-DD"),
+        // render: (startDate) => moment(startDate).format("YYYY-MM-DD"),
+        render: (startDate) =>
+          moment(startDate).subtract(1, "months").format("YYYY-MM-DD"),
       },
       {
-        title: "End Date",
+        title: "Ngày kết thúc",
         dataIndex: "endDate",
         key: "endDate",
-        render: (endDate) => moment(endDate).format("YYYY-MM-DD"),
+        // render: (endDate) => moment(endDate).format("YYYY-MM-DD"),
+        render: (startDate) =>
+          moment(startDate).subtract(1, "months").format("YYYY-MM-DD"),
       },
       {
-        title: "Reason",
+        title: "Lí do",
         dataIndex: "reason",
         key: "reason",
       },
       {
-        title: "Status",
+        title: "Trạng thái",
         dataIndex: "status",
         key: "status",
       },
       {
-        title: "Action",
+        title: "",
         key: "action",
         render: (_, record) => (
           <Space size="middle">
-            <Button
-              type="primary"
-              shape="round"
-              size="large"
-              onClick={() => approve(record.id)}
-            >
-              Approve
-            </Button>
+            {record.status === "Requested" ? (
+              <Button type="primary" onClick={() => approve(record.id)}>
+                Requested
+              </Button>
+            ) : (
+              <Button
+                type="primary"
+                // shape="round"
+                // size="large"
+                style={{ background: "green", borderColor: "red" }}
+              >
+                Approved
+              </Button>
+            )}
             <DeleteOutlined
               style={{ color: "red" }}
               onClick={() => del(record.id)}
@@ -121,32 +126,36 @@ function AbsenceAdmin(){
     ];
 
     async function del(id){
-      await axios.delete("/api/absence/" +id)
+      await axios.delete(`${process.env.REACT_APP_BACK_END}/api/absence/` +id)
     }
+ useEffect(() => {
+   async function getAll() {
+     const result = await axios({
+       method: "get",
+       url: `${process.env.REACT_APP_BACK_END}/api/absence/getall`,
+      //  params: {
+      //    _cacheBuster: Date.now(), // Add a random query parameter to bypass caching
+      //  },
+       headers: {
+         Authorization: localStorage.getItem("Token"),
+       },
+     });
+     if (result.data != null && result.data.status === "Fail") {
+       console.log(result.data.message);
+     }
+     if (result.data != null && result.data.status === "Success") {
+       setData([...result.data.payload]);
+     }
+   }
+   getAll();
+   // countUnread();
+ }, [data]);
 
-    async function getAll(){
-        const result = await axios({
-            method: 'get',
-            url: '/api/absence/getall',
-              params: {
-                _cacheBuster: Date.now(), // Add a random query parameter to bypass caching
-              },
-            headers:{
-                Authorization: localStorage.getItem("Token")
-            },
-        });
-        if(result.data!=null && result.data.status==="Fail"){
-            console.log(result.data.message);
-        }
-        if(result.data!=null && result.data.status==="Success"){
-            setData([...result.data.payload]);
-        }
-    }
-
+ 
     // async function countUnread(){
     //     const res = await axios({
     //         method:"get",
-    //         url:"/api/absence/count-unread",
+    //         url:`${process.env.REACT_APP_BACK_END}/api/absence/count-unread`,
     //         headers:{
     //             Authorization: localStorage.getItem("Token")
     //         }
@@ -157,7 +166,7 @@ function AbsenceAdmin(){
     async function approve(absenceId){
         const res =  await axios ({
             method:"put",
-            url:"/api/absence/approve/" + absenceId,
+            url:`${process.env.REACT_APP_BACK_END}/api/absence/approve/` + absenceId,
             headers:{
                 Authorization: localStorage.getItem("Token"),
             },
@@ -167,10 +176,7 @@ function AbsenceAdmin(){
         })
     }
 
-    useEffect(()=>{
-        getAll();
-        // countUnread();
-    },[]);
+   
 
 
   const handleLoginRedirect = () => {

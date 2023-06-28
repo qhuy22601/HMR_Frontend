@@ -377,11 +377,56 @@
 
 
 
-function Test(){
-  return(
-    <>
-    </>
-  );
-}
+import React, { useRef } from "react";
 
-export default Test;
+const CameraComponent = () => {
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+
+  const startCamera = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      videoRef.current.srcObject = stream;
+    } catch (error) {
+      console.error("Error accessing camera:", error);
+    }
+  };
+
+  const stopCamera = () => {
+    const stream = videoRef.current.srcObject;
+    const tracks = stream.getTracks();
+    tracks.forEach((track) => track.stop());
+    videoRef.current.srcObject = null;
+  };
+
+  const capturePicture = () => {
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    const context = canvas.getContext("2d");
+
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const pictureUrl = canvas.toDataURL("image/png");
+    console.log("Captured picture:", pictureUrl);
+
+    /*
+
+      url = "http://171.32131.321.321:8000/api/testanh"
+
+
+      axios.post({url}/pictureUrl)
+
+    */
+  };
+
+  return (
+    <div>
+      <button onClick={startCamera}>Open Camera</button>
+      <button onClick={stopCamera}>Close Camera</button>
+      <button onClick={capturePicture}>Capture Picture</button>
+      <video ref={videoRef} autoPlay playsInline />
+      <canvas ref={canvasRef} style={{ display: "none" }} />
+    </div>
+  );
+};
+
+export default CameraComponent;

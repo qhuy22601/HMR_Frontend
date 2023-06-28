@@ -3,3 +3,12 @@
     margin-left: auto;
     margin-right: 20;
 }
+
+/* Add this CSS in your component's stylesheet or a separate CSS file */
+.yellow_icon {
+    color: rgb(142, 142, 82);
+}
+
+.red_icon {
+    color: red;
+}
